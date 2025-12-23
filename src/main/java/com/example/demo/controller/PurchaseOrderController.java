@@ -1,36 +1,26 @@
 package com.example.demo.controller;
 
+import java.util.List;
+import org.springframework.web.bind.annotation.*;
+import lombok.RequiredArgsConstructor;
+
 import com.example.demo.entity.PurchaseOrder;
 import com.example.demo.service.PurchaseOrderService;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/purchase-orders")
+@RequiredArgsConstructor
 public class PurchaseOrderController {
 
     private final PurchaseOrderService service;
 
-    public PurchaseOrderController(PurchaseOrderService service) {
-        this.service = service;
-    }
-
     @PostMapping
-    public PurchaseOrder createPurchaseOrder(
-            @RequestBody PurchaseOrder purchaseOrder) {
-        return service.createPurchaseOrder(purchaseOrder);
+    public PurchaseOrder create(@RequestBody PurchaseOrder po) {
+        return service.createPurchaseOrder(po);
     }
 
-    @GetMapping("/supplier/{supplierId}")
-    public List<PurchaseOrder> getOrdersBySupplier(
-            @PathVariable Long supplierId) {
-        return service.getOrdersBySupplier(supplierId);
-    }
-
-    @GetMapping("/category/{categoryId}")
-    public List<PurchaseOrder> getOrdersByCategory(
-            @PathVariable Long categoryId) {
-        return service.getOrdersByCategory(categoryId);
+    @GetMapping("/supplier/{id}")
+    public List<PurchaseOrder> bySupplier(@PathVariable Long id) {
+        return service.getOrdersBySupplier(id);
     }
 }
