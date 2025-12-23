@@ -12,38 +12,37 @@ import java.util.List;
 public class SupplierServiceImpl implements SupplierService {
 
     @Autowired
-    private SupplierRepository supplierRepository;
+    private SupplierRepository repository;
 
     @Override
     public Supplier createSupplier(Supplier supplier) {
-        return supplierRepository.save(supplier);
-    }
-
-    @Override
-    public Supplier updateSupplier(Long id, Supplier supplierDetails) {
-        Supplier supplier = supplierRepository.findById(id).orElseThrow();
-        supplier.setName(supplierDetails.getName());
-        supplier.setActive(supplierDetails.getActive()); // match entity field
-        return supplierRepository.save(supplier);
+        return repository.save(supplier);
     }
 
     @Override
     public List<Supplier> getAllSuppliers() {
-        return supplierRepository.findAll();
+        return repository.findAll();
     }
 
     @Override
-    public Supplier getSupplier(Long id) {
-        return supplierRepository.findById(id).orElse(null);
+    public List<Supplier> getActiveSuppliers() {
+        return repository.findAll().stream()
+                .filter(Supplier::isActive) // fixed method
+                .toList();
+    }
+
+    @Override
+    public Supplier updateSupplier(Long id, Supplier supplierDetails) {
+        Supplier supplier = repository.findById(id).orElseThrow(() -> new RuntimeException("Supplier not found"));
+        supplier.setName(supplierDetails.getName());
+        supplier.setActive(supplierDetails.isActive()); // fixed method
+        return repository.save(supplier);
     }
 
     @Override
     public Supplier deactivateSupplier(Long id) {
-        Supplier supplier = supplierRepository.findById(id).orElse(null);
-        if (supplier != null) {
-            supplier.setActive(false); // match entity field
-            return supplierRepository.save(supplier);
-        }
-        return null;
+        Supplier supplier = repository.findById(id).orElseThrow(() -> new RuntimeException("Supplier not found"));
+        supplier.setActive(false); // mark as inactive
+        return repository.save(supplier);
     }
 }

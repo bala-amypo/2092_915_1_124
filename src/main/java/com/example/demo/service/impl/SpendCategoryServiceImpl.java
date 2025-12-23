@@ -20,20 +20,28 @@ public class SpendCategoryServiceImpl implements SpendCategoryService {
     }
 
     @Override
-    public SpendCategory updateCategory(Long id, SpendCategory categoryDetails) {
-        SpendCategory category = repository.findById(id).orElseThrow();
-        category.setName(categoryDetails.getName());
-        category.setActive(categoryDetails.getActive()); // match entity field
-        return repository.save(category);
-    }
-
-    @Override
     public List<SpendCategory> getAllCategories() {
         return repository.findAll();
     }
 
     @Override
     public List<SpendCategory> getActiveCategories() {
-        return repository.findByActiveTrue(); // repository must have this method
+        // Updated to use isActive() method from entity
+        return repository.findAll().stream()
+                .filter(SpendCategory::isActive)
+                .toList();
+    }
+
+    @Override
+    public SpendCategory updateCategory(Long id, SpendCategory categoryDetails) {
+        SpendCategory category = repository.findById(id).orElseThrow(() -> new RuntimeException("Category not found"));
+        category.setName(categoryDetails.getName());
+        category.setActive(categoryDetails.isActive()); // fixed method
+        return repository.save(category);
+    }
+
+    @Override
+    public void deleteCategory(Long id) {
+        repository.deleteById(id);
     }
 }
