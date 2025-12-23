@@ -4,10 +4,6 @@ import com.example.demo.entity.DiversityClassification;
 import java.util.List;
 
 public interface DiversityClassificationService {
-
-    List<DiversityClassification> getAllClassifications();
-
+    DiversityClassification createClassification(DiversityClassification classification);
     List<DiversityClassification> getActiveClassifications();
-
-    void deactivateClassification(Long id);
 }
