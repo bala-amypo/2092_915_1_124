@@ -1,25 +1,20 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+@Entity
 @Getter
 @Setter
-@Entity
-@Table(name = "users")
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserAccount {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String fullName;
-
-    @Column(unique = true, nullable = false)
     private String email;
-
     private String password;
-
     private String role;
 }
