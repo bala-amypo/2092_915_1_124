@@ -1,9 +1,9 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.DiversityClassification;
 import java.util.List;
+import com.example.demo.entity.DiversityClassification;
 
 public interface DiversityClassificationService {
-    DiversityClassification createClassification(DiversityClassification classification);
-    List<DiversityClassification> getActiveClassifications();
+    DiversityClassification createClassification(DiversityClassification dc);
+    List<DiversityClassification> getAll();
 }
