@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SupplierServiceImpl implements SupplierService {
@@ -17,20 +16,15 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public Supplier createSupplier(Supplier supplier) {
-        supplier.setActive(true);
         return supplierRepository.save(supplier);
     }
 
     @Override
     public Supplier updateSupplier(Long id, Supplier supplierDetails) {
-        Optional<Supplier> optionalSupplier = supplierRepository.findById(id);
-        if (optionalSupplier.isPresent()) {
-            Supplier supplier = optionalSupplier.get();
-            supplier.setName(supplierDetails.getName());
-            supplier.setActive(supplierDetails.isActive()); // use isActive()
-            return supplierRepository.save(supplier);
-        }
-        return null;
+        Supplier supplier = supplierRepository.findById(id).orElseThrow();
+        supplier.setName(supplierDetails.getName());
+        supplier.setActive(supplierDetails.getActive()); // match entity field
+        return supplierRepository.save(supplier);
     }
 
     @Override
@@ -45,10 +39,9 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public Supplier deactivateSupplier(Long id) {
-        Optional<Supplier> optionalSupplier = supplierRepository.findById(id);
-        if (optionalSupplier.isPresent()) {
-            Supplier supplier = optionalSupplier.get();
-            supplier.setActive(false); // use setActive()
+        Supplier supplier = supplierRepository.findById(id).orElse(null);
+        if (supplier != null) {
+            supplier.setActive(false); // match entity field
             return supplierRepository.save(supplier);
         }
         return null;
