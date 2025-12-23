@@ -16,7 +16,7 @@ public class SpendCategoryServiceImpl implements SpendCategoryService {
 
     @Override
     public SpendCategory createCategory(SpendCategory category) {
-        category.setActive(true); // ensure category is active when creating
+        category.setActive(true);
         return repository.save(category);
     }
 
@@ -25,10 +25,10 @@ public class SpendCategoryServiceImpl implements SpendCategoryService {
         SpendCategory category = repository.findById(id).orElse(null);
         if (category != null) {
             category.setName(categoryDetails.getName());
-            category.setActive(categoryDetails.getActive());
+            category.setActive(categoryDetails.getActive());  // match entity
             return repository.save(category);
         }
-        return null; // or throw exception
+        return null;
     }
 
     @Override
@@ -38,6 +38,6 @@ public class SpendCategoryServiceImpl implements SpendCategoryService {
 
     @Override
     public List<SpendCategory> getActiveCategories() {
-        return repository.findByActiveTrue(); // matches interface signature
+        return repository.findByActiveTrue(); // make sure repository has this
     }
 }

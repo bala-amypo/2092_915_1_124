@@ -30,7 +30,7 @@ public class SupplierServiceImpl implements SupplierService {
             supplier.setIsActive(supplierDetails.getIsActive());
             return supplierRepository.save(supplier);
         }
-        return null; // or throw exception
+        return null;
     }
 
     @Override
@@ -44,11 +44,13 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public void deactivateSupplier(Long id) {
+    public Supplier deactivateSupplier(Long id) {
         Optional<Supplier> optionalSupplier = supplierRepository.findById(id);
-        optionalSupplier.ifPresent(supplier -> {
-            supplier.setIsActive(false);
-            supplierRepository.save(supplier);
-        });
+        if (optionalSupplier.isPresent()) {
+            Supplier supplier = optionalSupplier.get();
+            supplier.setIsActive(false);  // use proper setter
+            return supplierRepository.save(supplier);
+        }
+        return null;
     }
 }
