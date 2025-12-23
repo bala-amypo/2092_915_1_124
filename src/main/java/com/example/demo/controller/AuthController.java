@@ -1,21 +1,16 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.AuthRequest;
-import com.example.demo.dto.AuthResponse;
+import org.springframework.web.bind.annotation.*;
+import lombok.RequiredArgsConstructor;
 import com.example.demo.entity.UserAccount;
 import com.example.demo.service.UserAccountService;
 
-import org.springframework.web.bind.annotation.*;
-
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
+@RequiredArgsConstructor
 public class AuthController {
 
     private final UserAccountService service;
-
-    public AuthController(UserAccountService service) {
-        this.service = service;
-    }
 
     @PostMapping("/register")
     public UserAccount register(@RequestBody UserAccount user) {
@@ -23,8 +18,8 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public AuthResponse login(@RequestBody AuthRequest request) {
-        String token = service.login(request.getEmail(), request.getPassword());
-        return new AuthResponse(token, "Bearer");
+    public UserAccount login(@RequestParam String email,
+                             @RequestParam String password) {
+        return service.login(email, password);
     }
 }

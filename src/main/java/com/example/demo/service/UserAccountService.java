@@ -3,6 +3,10 @@ package com.example.demo.service;
 import com.example.demo.entity.UserAccount;
 
 public interface UserAccountService {
-    UserAccount createUser(UserAccount user);
+
+    UserAccount register(UserAccount user);
+
+    UserAccount login(String email, String password);
+
     UserAccount getByEmail(String email);
 }
