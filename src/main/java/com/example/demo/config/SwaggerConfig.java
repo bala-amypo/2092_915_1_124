@@ -22,7 +22,7 @@ public class SwaggerConfig {
                         .description("REST API for tracking supplier diversity and procurement spend")
                         .version("1.0.0"))
                 .servers(List.of(
-                        new Server().url("https://9074.408procr.amypo.ai")
+                        new Server().url("https://9106.408procr.amypo.ai/")
                 ))
                 .addSecurityItem(new SecurityRequirement().addList("BearerAuth"))
                 .components(new Components()
