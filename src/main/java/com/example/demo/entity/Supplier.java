@@ -1,13 +1,13 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@Table(name = "suppliers")
+@Getter
+@Setter
 public class Supplier {
 
     @Id
@@ -16,5 +16,9 @@ public class Supplier {
 
     private String name;
 
-    private boolean active;
+    private String email;
+
+    private String contactNumber;
+
+    private boolean active = true; // default active
 }
