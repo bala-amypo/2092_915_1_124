@@ -17,7 +17,7 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public Supplier createSupplier(Supplier supplier) {
-        supplier.setIsActive(true); // ensure active when creating
+        supplier.setActive(true);
         return supplierRepository.save(supplier);
     }
 
@@ -27,7 +27,7 @@ public class SupplierServiceImpl implements SupplierService {
         if (optionalSupplier.isPresent()) {
             Supplier supplier = optionalSupplier.get();
             supplier.setName(supplierDetails.getName());
-            supplier.setIsActive(supplierDetails.getIsActive());
+            supplier.setActive(supplierDetails.isActive()); // use isActive()
             return supplierRepository.save(supplier);
         }
         return null;
@@ -48,7 +48,7 @@ public class SupplierServiceImpl implements SupplierService {
         Optional<Supplier> optionalSupplier = supplierRepository.findById(id);
         if (optionalSupplier.isPresent()) {
             Supplier supplier = optionalSupplier.get();
-            supplier.setIsActive(false);  // use proper setter
+            supplier.setActive(false); // use setActive()
             return supplierRepository.save(supplier);
         }
         return null;
