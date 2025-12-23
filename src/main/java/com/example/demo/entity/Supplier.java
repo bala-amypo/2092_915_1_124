@@ -4,10 +4,10 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Supplier {
 
     @Id
@@ -15,5 +15,6 @@ public class Supplier {
     private Long id;
 
     private String name;
-    private boolean isActive = true;
+
+    private boolean active;
 }
