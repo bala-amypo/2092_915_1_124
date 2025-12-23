@@ -1,30 +1,21 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import lombok.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.time.LocalDateTime;
-
+@Getter
+@Setter
 @Entity
-@Table(name = "users")
-@Getter @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class UserAccount {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String fullName;
-
-    @Email
-    @Column(unique = true)
     private String email;
-
     private String password;
-    private String role = "USER";
-
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private String role;
 }
