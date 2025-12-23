@@ -1,39 +1,43 @@
 package com.example.demo.service.impl;
 
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.example.demo.entity.SpendCategory;
 import com.example.demo.repository.SpendCategoryRepository;
 import com.example.demo.service.SpendCategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import lombok.RequiredArgsConstructor;
+import java.util.List;
 
 @Service
-@RequiredArgsConstructor
-@Transactional
 public class SpendCategoryServiceImpl implements SpendCategoryService {
 
-    private final SpendCategoryRepository repository;
+    @Autowired
+    private SpendCategoryRepository repository;
 
     @Override
     public SpendCategory createCategory(SpendCategory category) {
-        category.setActive(true); // default active
+        category.setActive(true); // ensure category is active when creating
         return repository.save(category);
+    }
+
+    @Override
+    public SpendCategory updateCategory(Long id, SpendCategory categoryDetails) {
+        SpendCategory category = repository.findById(id).orElse(null);
+        if (category != null) {
+            category.setName(categoryDetails.getName());
+            category.setActive(categoryDetails.getActive());
+            return repository.save(category);
+        }
+        return null; // or throw exception
+    }
+
+    @Override
+    public List<SpendCategory> getAllCategories() {
+        return repository.findAll();
     }
 
     @Override
     public List<SpendCategory> getActiveCategories() {
-        return repository.findByActiveTrue(); // assumes your repo has this method
-    }
-
-    @Override
-    public SpendCategory deactivateCategory(Long id) {
-        SpendCategory category = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Category not found: " + id));
-        category.setActive(false);
-        return repository.save(category);
+        return repository.findByActiveTrue(); // matches interface signature
     }
 }
