@@ -26,7 +26,6 @@ public class SpendCategoryServiceImpl implements SpendCategoryService {
 
     @Override
     public List<SpendCategory> getActiveCategories() {
-        // Updated to use isActive() method from entity
         return repository.findAll().stream()
                 .filter(SpendCategory::isActive)
                 .toList();
@@ -34,9 +33,10 @@ public class SpendCategoryServiceImpl implements SpendCategoryService {
 
     @Override
     public SpendCategory updateCategory(Long id, SpendCategory categoryDetails) {
-        SpendCategory category = repository.findById(id).orElseThrow(() -> new RuntimeException("Category not found"));
+        SpendCategory category = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Category not found"));
         category.setName(categoryDetails.getName());
-        category.setActive(categoryDetails.isActive()); // fixed method
+        category.setActive(categoryDetails.isActive());
         return repository.save(category);
     }
 

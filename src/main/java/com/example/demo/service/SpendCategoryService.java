@@ -7,9 +7,11 @@ public interface SpendCategoryService {
 
     SpendCategory createCategory(SpendCategory category);
 
-    SpendCategory updateCategory(Long id, SpendCategory categoryDetails);
-
     List<SpendCategory> getAllCategories();
 
     List<SpendCategory> getActiveCategories();
+
+    SpendCategory updateCategory(Long id, SpendCategory categoryDetails);
+
+    void deleteCategory(Long id);
 }
