@@ -13,41 +13,41 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    // @Bean
+    // public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http
-            // Disable CSRF (JWT-based stateless security)
-            .csrf(csrf -> csrf.disable())
+    //     http
+    //         // Disable CSRF (JWT-based stateless security)
+    //         .csrf(csrf -> csrf.disable())
 
-            // Stateless session
-            .sessionManagement(session ->
-                    session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+    //         // Stateless session
+    //         .sessionManagement(session ->
+    //                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-            // Authorization rules
-            .authorizeHttpRequests(auth -> auth
-                    .requestMatchers(
-                            "/auth/**",
-                            "/swagger-ui/**",
-                            "/swagger-ui.html",
-                            "/v3/api-docs/**"
-                    ).permitAll()
-                    .anyRequest().authenticated()
-            );
+    //         // Authorization rules
+    //         .authorizeHttpRequests(auth -> auth
+    //                 .requestMatchers(
+    //                         "/auth/**",
+    //                         "/swagger-ui/**",
+    //                         "/swagger-ui.html",
+    //                         "/v3/api-docs/**"
+    //                 ).permitAll()
+    //                 .anyRequest().authenticated()
+    //         );
 
-        return http.build();
-    }
+    //     return http.build();
+    // }
 
-    // Password encoder (BCrypt)
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    // // Password encoder (BCrypt)
+    // @Bean
+    // public PasswordEncoder passwordEncoder() {
+    //     return new BCryptPasswordEncoder();
+    // }
 
-    // Authentication manager
-    @Bean
-    public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration configuration) throws Exception {
-        return configuration.getAuthenticationManager();
-    }
+    // // Authentication manager
+    // @Bean
+    // public AuthenticationManager authenticationManager(
+    //         AuthenticationConfiguration configuration) throws Exception {
+    //     return configuration.getAuthenticationManager();
+    // }
 }
