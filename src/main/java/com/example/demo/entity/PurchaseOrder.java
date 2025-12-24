@@ -13,23 +13,20 @@ import java.util.Date;
 public class PurchaseOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; [cite: 391]
+    private Long id;
 
-    @Column(unique = true)
-    private String poNumber; [cite: 391]
-
-    @ManyToOne
-    private Supplier supplier; [cite: 391]
+    @Column(unique = true, nullable = false)
+    private String poNumber;
 
     @ManyToOne
-    private SpendCategory category; [cite: 391]
+    private Supplier supplier;
+
+    @ManyToOne
+    private SpendCategory category;
 
     @DecimalMin(value = "0.0", inclusive = false)
-    private BigDecimal amount; [cite: 391, 393]
+    private BigDecimal amount;
 
     @PastOrPresent
-    private Date dateIssued; [cite: 391, 394]
-
-    private String approvedBy; [cite: 391]
-    private String notes; [cite: 391]
+    private Date dateIssued;
 }

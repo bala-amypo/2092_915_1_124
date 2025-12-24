@@ -8,8 +8,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/suppliers")
-@Tag(name = "Supplier Management") [cite: 453]
+@Tag(name = "Supplier Management")
 public class SupplierController {
+    
     private final SupplierService supplierService;
 
     public SupplierController(SupplierService supplierService) {
@@ -18,16 +19,16 @@ public class SupplierController {
 
     @PostMapping
     public Supplier create(@RequestBody Supplier supplier) {
-        return supplierService.createSupplier(supplier); [cite: 455]
+        return supplierService.createSupplier(supplier);
     }
 
     @GetMapping
     public List<Supplier> getAll() {
-        return supplierService.getAllSuppliers(); [cite: 458]
+        return supplierService.getAllSuppliers();
     }
 
     @PutMapping("/{id}/deactivate")
     public void deactivate(@PathVariable Long id) {
-        supplierService.deactivateSupplier(id); [cite: 459]
+        supplierService.deactivateSupplier(id);
     }
 }
