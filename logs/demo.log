@@ -553,3 +553,5 @@ Caused by: java.lang.IllegalStateException: Cannot load driver class: com.mysql.
 	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:146) ~[spring-beans-6.1.13.jar:6.1.13]
 	... 126 common frames omitted
 
+2025-12-24T04:27:23.005Z  INFO 58352 --- [demo] [main] com.example.demo.DemoApplication         : Starting DemoApplication using Java 17.0.17 with PID 58352 (/home/coder/Workspace/demo/target/classes started by coder in /home/coder/Workspace/demo)
+2025-12-24T04:27:23.009Z  INFO 58352 --- [demo] [main] com.example.demo.DemoApplication         : The following 1 profile is active: "dev"
