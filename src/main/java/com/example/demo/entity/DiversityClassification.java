@@ -12,11 +12,13 @@ public class DiversityClassification {
     private Long id;
 
     @Column(unique = true, nullable = false)
-    private String code; // e.g., MBE, WBE
+    private String code;
 
     @Column(nullable = false)
     private String name;
 
     private String description;
+    
+    // Using isActive to stay consistent with other entities
     private Boolean isActive = true;
 }
