@@ -5,5 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrder, Long> {
-    List<PurchaseOrder> findBySupplier_Id(Long supplierId);
+    List<PurchaseOrder> findBySupplierId(Long supplierId); // [cite: 215]
+    List<PurchaseOrder> findByCategoryId(Long categoryId); // Fixed naming [cite: 215]
 }

@@ -11,7 +11,6 @@ import java.util.List;
 @Service
 @Transactional
 public class DiversityClassificationServiceImpl implements DiversityClassificationService {
-
     private final DiversityClassificationRepository repository;
 
     public DiversityClassificationServiceImpl(DiversityClassificationRepository repository) {
@@ -20,41 +19,15 @@ public class DiversityClassificationServiceImpl implements DiversityClassificati
 
     @Override
     public DiversityClassification createClassification(DiversityClassification classification) {
+        // Validation: Unique code, forced to uppercase [cite: 132, 276]
+        if (classification.getCode() != null) {
+            classification.setCode(classification.getCode().toUpperCase());
+        }
         return repository.save(classification);
     }
 
     @Override
-    public DiversityClassification updateClassification(Long id, DiversityClassification c) {
-        DiversityClassification existing = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Classification not found"));
-        existing.setCode(c.getCode());
-        existing.setName(c.getName());
-        existing.setDescription(c.getDescription());
-        existing.setIsActive(c.getIsActive()); // Corrected from setActive/getActive
-        return repository.save(existing);
-    }
-
-    @Override
-    public List<DiversityClassification> getAllClassifications() {
-        return repository.findAll();
-    }
-
-    @Override
-    public DiversityClassification getClassificationById(Long id) { // Exact interface name
-        return repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Classification not found"));
-    }
-
-    @Override
     public List<DiversityClassification> getActiveClassifications() {
-        return repository.findByIsActiveTrue();
-    }
-
-    @Override
-    public void deactivateClassification(Long id) {
-        DiversityClassification dc = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Classification not found"));
-        dc.setIsActive(false); // Corrected from setActive
-        repository.save(dc);
+        return repository.findByActiveTrue(); // Matches interface [cite: 238]
     }
 }
