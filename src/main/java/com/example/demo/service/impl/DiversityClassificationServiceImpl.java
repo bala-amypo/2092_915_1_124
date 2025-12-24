@@ -14,17 +14,12 @@ public class DiversityClassificationServiceImpl implements DiversityClassificati
 
     private final DiversityClassificationRepository repository;
 
-    // Requirement: Constructor injection with exact naming [cite: 354, 369]
     public DiversityClassificationServiceImpl(DiversityClassificationRepository repository) {
         this.repository = repository;
     }
 
     @Override
     public DiversityClassification createClassification(DiversityClassification classification) {
-        // Validation: Ensure code is unique and uppercase as per rules 
-        if (classification.getCode() != null) {
-            classification.setCode(classification.getCode().toUpperCase());
-        }
         return repository.save(classification);
     }
 
@@ -32,9 +27,10 @@ public class DiversityClassificationServiceImpl implements DiversityClassificati
     public DiversityClassification updateClassification(Long id, DiversityClassification c) {
         DiversityClassification existing = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Classification not found"));
-        existing.setCode(c.getCode().toUpperCase());
+        existing.setCode(c.getCode());
+        existing.setName(c.getName());
         existing.setDescription(c.getDescription());
-        existing.setActive(c.getActive());
+        existing.setIsActive(c.getIsActive()); // Corrected from setActive/getActive
         return repository.save(existing);
     }
 
@@ -44,23 +40,21 @@ public class DiversityClassificationServiceImpl implements DiversityClassificati
     }
 
     @Override
-    public DiversityClassification getById(Long id) {
+    public DiversityClassification getClassificationById(Long id) { // Exact interface name
         return repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Classification not found"));
     }
 
     @Override
     public List<DiversityClassification> getActiveClassifications() {
-        // Requirement: Use the exact repository method signature [cite: 361]
-        return repository.findByActiveTrue();
+        return repository.findByIsActiveTrue();
     }
 
     @Override
     public void deactivateClassification(Long id) {
         DiversityClassification dc = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Classification not found"));
-        // Rule: Only active classifications can be assigned [cite: 137]
-        dc.setActive(false); 
+        dc.setIsActive(false); // Corrected from setActive
         repository.save(dc);
     }
 }

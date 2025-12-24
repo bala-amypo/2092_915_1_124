@@ -5,11 +5,9 @@ import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.SupplierRepository;
 import com.example.demo.service.SupplierService;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
 public class SupplierServiceImpl implements SupplierService {
     private final SupplierRepository supplierRepository;
 
@@ -18,11 +16,9 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public Supplier deactivateSupplier(Long id) {
-        Supplier supplier = supplierRepository.findById(id)
+    public Supplier getSupplier(Long id) { // Added missing method
+        return supplierRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Supplier not found"));
-        supplier.setIsActive(false); // [cite: 271, 311]
-        return supplierRepository.save(supplier); // Must return Supplier 
     }
 
     @Override
@@ -33,5 +29,13 @@ public class SupplierServiceImpl implements SupplierService {
     @Override
     public List<Supplier> getAllSuppliers() {
         return supplierRepository.findAll();
+    }
+
+    @Override
+    public Supplier deactivateSupplier(Long id) {
+        Supplier supplier = supplierRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Supplier not found"));
+        supplier.setIsActive(false);
+        return supplierRepository.save(supplier);
     }
 }
