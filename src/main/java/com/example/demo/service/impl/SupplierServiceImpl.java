@@ -11,27 +11,27 @@ import java.util.List;
 @Service
 @Transactional
 public class SupplierServiceImpl implements SupplierService {
-    private final SupplierRepository supplierRepo;
+    private final SupplierRepository supplierRepository;
 
-    public SupplierServiceImpl(SupplierRepository supplierRepo) {
-        this.supplierRepo = supplierRepo;
+    public SupplierServiceImpl(SupplierRepository supplierRepository) {
+        this.supplierRepository = supplierRepository;
+    }
+
+    @Override
+    public Supplier deactivateSupplier(Long id) {
+        Supplier supplier = supplierRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Supplier not found"));
+        supplier.setIsActive(false); // [cite: 271, 311]
+        return supplierRepository.save(supplier); // Must return Supplier 
     }
 
     @Override
     public Supplier createSupplier(Supplier supplier) {
-        return supplierRepo.save(supplier);
+        return supplierRepository.save(supplier);
     }
 
     @Override
     public List<Supplier> getAllSuppliers() {
-        return supplierRepo.findByIsActiveTrue();
-    }
-
-    @Override
-    public void deactivateSupplier(Long id) {
-        Supplier supplier = supplierRepo.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Supplier not found"));
-        supplier.setIsActive(false);
-        supplierRepo.save(supplier);
+        return supplierRepository.findAll();
     }
 }
