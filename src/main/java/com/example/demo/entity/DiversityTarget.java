@@ -1,20 +1,24 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
+import java.math.BigDecimal;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Table(name = "diversity_targets")
+@Data
 public class DiversityTarget {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int targetYear;
-    private double targetPercentage;
-    private boolean active = true;
+    private Integer targetYear;
+    
+    @ManyToOne
+    private DiversityClassification classification;
+
+    @Column(precision = 5, scale = 2)
+    private BigDecimal targetPercentage; // e.g., 15.00 for 15%
+
+    private Boolean isActive = true;
 }

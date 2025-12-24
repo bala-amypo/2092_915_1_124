@@ -1,42 +1,37 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.Supplier;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.SupplierRepository;
 import com.example.demo.service.SupplierService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class SupplierServiceImpl implements SupplierService {
+    private final SupplierRepository supplierRepo;
 
-    @Autowired
-    private SupplierRepository supplierRepository;
+    public SupplierServiceImpl(SupplierRepository supplierRepo) {
+        this.supplierRepo = supplierRepo;
+    }
 
     @Override
     public Supplier createSupplier(Supplier supplier) {
-        supplier.setActive(true);
-        return supplierRepository.save(supplier);
-    }
-
-    @Override
-    public Supplier getSupplier(Long id) {
-        return supplierRepository.findById(id).orElse(null);
-    }
-
-    @Override
-    public Supplier deactivateSupplier(Long id) {
-        Supplier supplier = supplierRepository.findById(id).orElse(null);
-        if (supplier != null) {
-            supplier.setActive(false);
-            return supplierRepository.save(supplier);
-        }
-        return null;
+        return supplierRepo.save(supplier);
     }
 
     @Override
     public List<Supplier> getAllSuppliers() {
-        return supplierRepository.findAll();
+        return supplierRepo.findByIsActiveTrue();
+    }
+
+    @Override
+    public void deactivateSupplier(Long id) {
+        Supplier supplier = supplierRepo.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Supplier not found"));
+        supplier.setIsActive(false);
+        supplierRepo.save(supplier);
     }
 }

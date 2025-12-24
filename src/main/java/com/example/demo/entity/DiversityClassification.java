@@ -1,19 +1,22 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Table(name = "diversity_classifications")
+@Data
 public class DiversityClassification {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String classification;
-    private boolean active = true;
+    @Column(unique = true, nullable = false)
+    private String code; // e.g., MBE, WBE
+
+    @Column(nullable = false)
+    private String name;
+
+    private String description;
+    private Boolean isActive = true;
 }
