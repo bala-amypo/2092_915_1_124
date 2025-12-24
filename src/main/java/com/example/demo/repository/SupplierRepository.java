@@ -6,6 +6,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface SupplierRepository extends JpaRepository<Supplier, Long> {
-    List<Supplier> findByIsActiveTrue(); [cite: 360]
-    Optional<Supplier> findByEmail(String email); [cite: 366]
+    List<Supplier> findByIsActiveTrue();
+    Optional<Supplier> findByEmail(String email);
 }

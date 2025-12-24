@@ -16,7 +16,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     private final SupplierRepository supplierRepo;
     private final SpendCategoryRepository categoryRepo;
 
-    // Strict constructor order: PO Repo, Supplier Repo, Category Repo [cite: 371]
     public PurchaseOrderServiceImpl(PurchaseOrderRepository poRepo, 
                                    SupplierRepository supplierRepo, 
                                    SpendCategoryRepository categoryRepo) {
@@ -28,13 +27,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     @Override
     public PurchaseOrder createPurchaseOrder(PurchaseOrder po) {
         if (po.getAmount().compareTo(BigDecimal.ZERO) <= 0) {
-            throw new BadRequestException("Amount must be > 0"); [cite: 439]
+            throw new BadRequestException("Amount must be > 0");
         }
         return poRepo.save(po);
     }
 
     @Override
     public List<PurchaseOrder> getPurchaseOrdersBySupplier(Long supplierId) {
-        return poRepo.findBySupplier_Id(supplierId); [cite: 443]
+        return poRepo.findBySupplier_Id(supplierId);
     }
 }
