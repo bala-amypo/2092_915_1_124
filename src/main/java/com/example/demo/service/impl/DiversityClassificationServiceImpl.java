@@ -9,24 +9,24 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Transactional [cite: 258]
+@Transactional
 public class DiversityClassificationServiceImpl implements DiversityClassificationService {
     private final DiversityClassificationRepository repository;
 
-    public DiversityClassificationServiceImpl(DiversityClassificationRepository repository) { [cite: 275]
+    public DiversityClassificationServiceImpl(DiversityClassificationRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public DiversityClassification createClassification(DiversityClassification classification) { [cite: 238, 276]
+    public DiversityClassification createClassification(DiversityClassification classification) {
         if (classification.getCode() != null) {
-            classification.setCode(classification.getCode().toUpperCase()); [cite: 132]
+            classification.setCode(classification.getCode().toUpperCase());
         }
         return repository.save(classification);
     }
 
     @Override
-    public List<DiversityClassification> getActiveClassifications() { [cite: 238, 276]
-        return repository.findByActiveTrue();
+    public List<DiversityClassification> getActiveClassifications() {
+        return repository.findByIsActiveTrue();
     }
 }

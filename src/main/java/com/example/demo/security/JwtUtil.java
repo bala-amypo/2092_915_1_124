@@ -1,40 +1,37 @@
-package com.example.demo.util;
+package com.example.demo.security;
 
-import com.example.demo.entity.UserAccount;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import java.util.Date;
 import java.util.function.Function;
 
-@Component
 public class JwtUtil {
-    @Value("${jwt.secret}")
-    private String secretKey; [cite: 94, 296]
+    private final byte[] secret;
+    private final Long expirationMs;
 
-    @Value("${jwt.expiration}")
-    private long expirationMs; [cite: 95, 296]
+    public JwtUtil(byte[] secret, Long expirationMs) {
+        this.secret = secret;
+        this.expirationMs = expirationMs;
+    }
 
-    public String generateToken(UserAccount user) { [cite: 296]
+    public String generateToken(String email) {
         return Jwts.builder()
-                .setSubject(user.getEmail())
-                .claim("role", user.getRole())
+                .setSubject(email)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expirationMs))
-                .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()), SignatureAlgorithm.HS256)
+                .signWith(Keys.hmacShaKeyFor(secret), SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    public String getEmailFromToken(String token) { [cite: 298]
+    public String extractEmail(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = Jwts.parserBuilder()
-                .setSigningKey(Keys.hmacShaKeyFor(secretKey.getBytes()))
+                .setSigningKey(Keys.hmacShaKeyFor(secret))
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
