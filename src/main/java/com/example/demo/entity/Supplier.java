@@ -3,33 +3,33 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDateTime;
-import java.util.List;
 
-@Entity @Data @Table(name = "suppliers")
+@Entity
+@Table(name = "suppliers")
+@Data
 public class Supplier {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; [cite: 73]
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false, unique = true)
-    private String name; [cite: 73, 75]
+    private String name;
 
     @Column(nullable = false, unique = true)
-    private String registrationNumber; [cite: 73, 304]
+    private String registrationNumber;
 
     @Column(nullable = false, unique = true)
-    private String email; [cite: 73, 75]
+    private String email;
 
-    private String phone; [cite: 73]
-    private String address; [cite: 73]
-    private Boolean isActive = true; [cite: 74]
-
-    @ManyToMany
-    @JoinTable(name = "supplier_classifications")
-    private List<DiversityClassification> diversityClassifications; [cite: 74]
+    private String phone;
+    private String address;
+    private Boolean isActive = true;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     @PrePersist
-    protected void onCreate() { this.createdAt = LocalDateTime.now(); } [cite: 76]
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
 }
