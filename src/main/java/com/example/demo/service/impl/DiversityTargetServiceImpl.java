@@ -1,11 +1,10 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.DiversityTarget;
-import com.example.demo.exception.BadRequestException;
 import com.example.demo.repository.DiversityTargetRepository;
 import com.example.demo.service.DiversityTargetService;
+import com.example.demo.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
@@ -17,16 +16,20 @@ public class DiversityTargetServiceImpl implements DiversityTargetService {
     }
 
     @Override
-    @Transactional
     public DiversityTarget createTarget(DiversityTarget target) {
-        if (target.getTargetPercentage() < 0 || target.getTargetPercentage() > 100) {
-            throw new BadRequestException("Percentage must be between 0 and 100");
-        }
         return targetRepo.save(target);
     }
 
     @Override
     public List<DiversityTarget> getTargetsByYear(Integer year) {
         return targetRepo.findByTargetYear(year);
+    }
+
+    @Override
+    public DiversityTarget deactivateTarget(Long id) {
+        DiversityTarget target = targetRepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Target not found"));
+        target.setIsActive(false);
+        return targetRepo.save(target);
     }
 }
