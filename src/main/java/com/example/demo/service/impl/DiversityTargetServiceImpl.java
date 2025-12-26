@@ -14,35 +14,32 @@ public class DiversityTargetServiceImpl implements DiversityTargetService {
 
     private final DiversityTargetRepository repository;
 
-    // Requirement: Constructor must accept dependencies in this exact order [cite: 354, 372]
     public DiversityTargetServiceImpl(DiversityTargetRepository repository) {
         this.repository = repository;
     }
 
     @Override
     public DiversityTarget createTarget(DiversityTarget target) {
-        // Business Rule: One active target per classification per year [cite: 180, 281]
         return repository.save(target);
     }
 
     @Override
-    public List<DiversityTarget> getActiveTargets() {
-        // Corrected: Uses the exact repository method name [cite: 220, 361]
-        return repository.findByActiveTrue();
+    public List<DiversityTarget> getAllTargets() {
+        return repository.findAll();
     }
 
     @Override
     public List<DiversityTarget> getTargetsByYear(Integer year) {
-        // Implementation for searching by year [cite: 447, 482]
+        // Ensure this method name matches the interface exactly
         return repository.findByTargetYear(year);
     }
 
     @Override
     public void deactivateTarget(Long id) {
-        // Logic for soft-deactivation [cite: 449, 483]
+        // Ensure this method name matches the interface exactly
         DiversityTarget target = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Target not found with ID: " + id));
-        target.setActive(false); 
+                .orElseThrow(() -> new ResourceNotFoundException("Target not found with id: " + id));
+        target.setActive(false);
         repository.save(target);
     }
 }
