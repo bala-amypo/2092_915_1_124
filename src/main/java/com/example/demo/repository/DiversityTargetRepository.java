@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface DiversityTargetRepository extends JpaRepository<DiversityTarget, Long> {
-    List<DiversityTarget> findByActiveTrue();
-    List<DiversityTarget> findByTargetYear(Integer targetYear);
+    List<DiversityTarget> findByTargetYear(Integer year);
+    List<DiversityTarget> findByIsActiveTrue();
 }

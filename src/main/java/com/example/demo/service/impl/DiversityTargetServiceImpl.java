@@ -26,6 +26,11 @@ public class DiversityTargetServiceImpl implements DiversityTargetService {
     }
 
     @Override
+    public List<DiversityTarget> getActiveTargets() {
+        return targetRepo.findByIsActiveTrue();
+    }
+
+    @Override
     public void deactivateTarget(Long id) {
         DiversityTarget target = targetRepo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Target not found"));

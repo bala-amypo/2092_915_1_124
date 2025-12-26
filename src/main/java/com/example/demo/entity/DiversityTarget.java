@@ -12,5 +12,5 @@ public class DiversityTarget {
     private Long id;
     private Integer targetYear;
     private Double targetPercentage;
-    private Boolean isActive = true; // Required for the deactivate method
+    private Boolean isActive = true;
 }
