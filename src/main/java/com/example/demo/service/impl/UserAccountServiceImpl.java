@@ -1,39 +1,46 @@
 package com.example.demo.service.impl;
 
-import org.springframework.stereotype.Service;
-import lombok.RequiredArgsConstructor;
 import com.example.demo.entity.UserAccount;
+import com.example.demo.exception.BadRequestException;
+import com.example.demo.exception.UnauthorizedException;
 import com.example.demo.repository.UserAccountRepository;
+import com.example.demo.security.JwtUtil;
 import com.example.demo.service.UserAccountService;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
 public class UserAccountServiceImpl implements UserAccountService {
+    private final UserAccountRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
-    private final UserAccountRepository repository;
+    // Constructor Injection in exact order [cite: 65, 472]
+    public UserAccountServiceImpl(UserAccountRepository userRepository, 
+                                  PasswordEncoder passwordEncoder, 
+                                  JwtUtil jwtUtil) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtUtil = jwtUtil;
+    }
 
     @Override
     public UserAccount register(UserAccount user) {
-        if (repository.existsByEmail(user.getEmail())) {
-            throw new RuntimeException("Email already exists");
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new BadRequestException("Email already exists"); [cite: 6, 67, 472]
         }
-        return repository.save(user);
+        user.setPassword(passwordEncoder.encode(user.getPassword())); [cite: 95, 473]
+        return userRepository.save(user);
     }
 
     @Override
-    public UserAccount login(String email, String password) {
-        UserAccount user = repository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        if (!user.getPassword().equals(password)) {
-            throw new RuntimeException("Invalid password");
+    public String login(String email, String password) {
+        UserAccount user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UnauthorizedException("Invalid credentials")); [cite: 69, 473]
+        
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new UnauthorizedException("Invalid credentials"); [cite: 69, 473]
         }
-        return user;
-    }
-
-    @Override
-    public UserAccount getByEmail(String email) {
-        return repository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        return jwtUtil.generateToken(user.getEmail()); [cite: 473, 486]
     }
 }
