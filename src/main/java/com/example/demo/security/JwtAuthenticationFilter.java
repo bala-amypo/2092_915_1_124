@@ -20,6 +20,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final UserDetailsService userDetailsService;
 
+    // @Lazy breaks the loop between SecurityConfig and UserDetailsService
     public JwtAuthenticationFilter(JwtUtil jwtUtil, @Lazy UserDetailsService userDetailsService) {
         this.jwtUtil = jwtUtil;
         this.userDetailsService = userDetailsService;
@@ -28,11 +29,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+        
         final String authHeader = request.getHeader("Authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
+
         final String jwt = authHeader.substring(7);
         final String userEmail = jwtUtil.extractEmail(jwt);
 
