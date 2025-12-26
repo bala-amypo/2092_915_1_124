@@ -1,33 +1,17 @@
-package com.example.demo.service.impl;
+package com.example.demo.repository;
 
 import com.example.demo.entity.DiversityTarget;
-import com.example.demo.repository.DiversityTargetRepository;
-import com.example.demo.service.DiversityTargetService;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
+import java.util.Optional;
 
-@Service
-@Transactional // Service write operations must be transactional 
-public class DiversityTargetServiceImpl implements DiversityTargetService {
+public interface DiversityTargetRepository extends JpaRepository<DiversityTarget, Long> {
+    // Required: Must return List<DiversityTarget> [cite: 220, 361]
+    List<DiversityTarget> findByActiveTrue();
 
-    private final DiversityTargetRepository repository;
+    // Required: Find targets by specific year [cite: 363]
+    List<DiversityTarget> findByTargetYear(Integer year);
 
-    // Strict constructor injection required for automated testing 
-    public DiversityTargetServiceImpl(DiversityTargetRepository repository) {
-        this.repository = repository;
-    }
-
-    @Override
-    public DiversityTarget createTarget(DiversityTarget target) {
-        return repository.save(target);
-    }
-
-    @Override
-    public List<DiversityTarget> getActiveTargets() {
-        // This call will now resolve with the updated repository [cite: 251, 282]
-        return repository.findByActiveTrue();
-    }
-
-    // Ensure other interface methods like getTargetsByYear are implemented here [cite: 447]
+    // Required: Logic to validate unique active target per year/classification [cite: 219]
+    Optional<DiversityTarget> findByTargetYearAndClassificationId(Integer year, Long classificationId);
 }
