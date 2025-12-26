@@ -3,30 +3,43 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.PastOrPresent;
-import lombok.Data;
-import java.math.BigDecimal;
-import java.util.Date;
+
+import java.time.LocalDate;
 
 @Entity
-@Table(name = "purchase_orders")
-@Data
 public class PurchaseOrder {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
-    private String poNumber;
-
-    @ManyToOne
-    private Supplier supplier;
-
-    @ManyToOne
-    private SpendCategory category;
-
-    @DecimalMin(value = "0.0", inclusive = false)
-    private BigDecimal amount;
+    @DecimalMin(value = "0.1", message = "Amount must be greater than zero")
+    private Double amount;
 
     @PastOrPresent
-    private Date dateIssued;
+    private LocalDate orderDate;
+
+    public Long getId() {
+        return id;
+    }
+
+    public Double getAmount() {
+        return amount;
+    }
+
+    public LocalDate getOrderDate() {
+        return orderDate;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    public void setOrderDate(LocalDate orderDate) {
+        this.orderDate = orderDate;
+    }
 }
