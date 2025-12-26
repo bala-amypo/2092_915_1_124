@@ -4,14 +4,20 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import java.util.Date;
 import java.util.function.Function;
 
+@Component // This annotation allows Spring to find and create this bean
 public class JwtUtil {
-    private final byte[] secret;
+
+    private final String secret;
     private final Long expirationMs;
 
-    public JwtUtil(byte[] secret, Long expirationMs) {
+    // Injecting values from application.properties
+    public JwtUtil(@Value("${jwt.secret}") String secret, 
+                   @Value("${jwt.expiration}") Long expirationMs) {
         this.secret = secret;
         this.expirationMs = expirationMs;
     }
@@ -21,7 +27,7 @@ public class JwtUtil {
                 .setSubject(email)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expirationMs))
-                .signWith(Keys.hmacShaKeyFor(secret), SignatureAlgorithm.HS256)
+                .signWith(Keys.hmacShaKeyFor(secret.getBytes()), SignatureAlgorithm.HS256)
                 .compact();
     }
 
@@ -31,7 +37,7 @@ public class JwtUtil {
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = Jwts.parserBuilder()
-                .setSigningKey(Keys.hmacShaKeyFor(secret))
+                .setSigningKey(Keys.hmacShaKeyFor(secret.getBytes()))
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
