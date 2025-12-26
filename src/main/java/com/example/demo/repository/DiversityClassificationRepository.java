@@ -6,6 +6,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface DiversityClassificationRepository extends JpaRepository<DiversityClassification, Long> {
-    Optional<DiversityClassification> findByCode(String code); // Required for validation [cite: 207]
-    List<DiversityClassification> findByActiveTrue(); // Required for active filtering [cite: 207]
+    Optional<DiversityClassification> findByCode(String code); [cite: 207]
+    List<DiversityClassification> findByActiveTrue(); [cite: 207]
 }

@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface DiversityTargetRepository extends JpaRepository<DiversityTarget, Long> {
-    // Required to enforce one active target per year/classification [cite: 219]
-    Optional<DiversityTarget> findByTargetYearAndClassificationId(Integer year, Long classificationId);
-    List<DiversityTarget> findByActiveTrue(); // [cite: 220]
+    Optional<DiversityTarget> findByTargetYearAndClassificationId(Integer year, Long classificationId); [cite: 219]
+    List<DiversityTarget> findByActiveTrue(); [cite: 220]
 }
