@@ -14,6 +14,7 @@ public class DiversityTargetServiceImpl implements DiversityTargetService {
 
     private final DiversityTargetRepository repository;
 
+    // Standard constructor-based injection
     public DiversityTargetServiceImpl(DiversityTargetRepository repository) {
         this.repository = repository;
     }
@@ -29,14 +30,19 @@ public class DiversityTargetServiceImpl implements DiversityTargetService {
     }
 
     @Override
+    public List<DiversityTarget> getActiveTargets() {
+        // This method resolves the "is not abstract" error
+        return repository.findByActiveTrue();
+    }
+
+    @Override
     public List<DiversityTarget> getTargetsByYear(Integer year) {
-        // Ensure this method name matches the interface exactly
+        // Matches the plural naming convention of the interface
         return repository.findByTargetYear(year);
     }
 
     @Override
     public void deactivateTarget(Long id) {
-        // Ensure this method name matches the interface exactly
         DiversityTarget target = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Target not found with id: " + id));
         target.setActive(false);
