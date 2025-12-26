@@ -1,25 +1,16 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.PurchaseOrder;
-import com.example.demo.repository.PurchaseOrderRepository;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class PurchaseOrderService {
+public interface PurchaseOrderService {
 
-    private final PurchaseOrderRepository repository;
+    PurchaseOrder save(PurchaseOrder order);
 
-    public PurchaseOrderService(PurchaseOrderRepository repository) {
-        this.repository = repository;
-    }
+    List<PurchaseOrder> findAll();
 
-    public PurchaseOrder save(PurchaseOrder order) {
-        return repository.save(order);
-    }
+    List<PurchaseOrder> findBySupplierId(Long supplierId);
 
-    public List<PurchaseOrder> findAll() {
-        return repository.findAll();
-    }
+    List<PurchaseOrder> findBySpendCategoryId(Long categoryId);
 }

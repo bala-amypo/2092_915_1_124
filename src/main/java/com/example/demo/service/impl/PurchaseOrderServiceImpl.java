@@ -4,10 +4,12 @@ import com.example.demo.entity.PurchaseOrder;
 import com.example.demo.repository.PurchaseOrderRepository;
 import com.example.demo.service.PurchaseOrderService;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
 public class PurchaseOrderServiceImpl implements PurchaseOrderService {
+
     private final PurchaseOrderRepository poRepo;
 
     public PurchaseOrderServiceImpl(PurchaseOrderRepository poRepo) {
@@ -15,17 +17,22 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     @Override
-    public PurchaseOrder createPurchaseOrder(PurchaseOrder po) {
-        return poRepo.save(po);
+    public PurchaseOrder save(PurchaseOrder order) {
+        return poRepo.save(order);
     }
 
     @Override
-    public List<PurchaseOrder> getOrdersBySupplier(Long supplierId) {
+    public List<PurchaseOrder> findAll() {
+        return poRepo.findAll();
+    }
+
+    @Override
+    public List<PurchaseOrder> findBySupplierId(Long supplierId) {
         return poRepo.findBySupplier_Id(supplierId);
     }
 
     @Override
-    public List<PurchaseOrder> getOrdersByCategory(Long categoryId) {
+    public List<PurchaseOrder> findBySpendCategoryId(Long categoryId) {
         return poRepo.findBySpendCategory_Id(categoryId);
     }
 }
