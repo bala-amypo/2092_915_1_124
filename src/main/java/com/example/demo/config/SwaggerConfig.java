@@ -1,10 +1,10 @@
 package com.example.demo.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import java.util.List;
 
 @Configuration
 public class SwaggerConfig {
@@ -12,9 +12,10 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
-                // You need to change the port as per your server
-                .servers(List.of(
-                        new Server().url("https://9106.408procr.amypo.ai/")
-                ));
-        }
+                .info(new Info()
+                        .title("Supplier Diversity API")
+                        .version("1.0")
+                        .description("API for managing diverse supplier tracking")
+                        .license(new License().name("Apache 2.0").url("http://springdoc.org")));
+    }
 }
