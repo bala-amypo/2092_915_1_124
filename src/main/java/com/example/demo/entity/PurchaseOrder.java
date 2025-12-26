@@ -1,9 +1,7 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.PastOrPresent;
-
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -13,33 +11,33 @@ public class PurchaseOrder {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @DecimalMin(value = "0.1", message = "Amount must be greater than zero")
-    private Double amount;
+    private BigDecimal amount;
 
-    @PastOrPresent
     private LocalDate orderDate;
 
-    public Long getId() {
-        return id;
-    }
+    @ManyToOne
+    @JoinColumn(name = "supplier_id")
+    private Supplier supplier;
 
-    public Double getAmount() {
-        return amount;
-    }
+    @ManyToOne
+    @JoinColumn(name = "spend_category_id")
+    private SpendCategory spendCategory;
 
-    public LocalDate getOrderDate() {
-        return orderDate;
-    }
+    // getters & setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public BigDecimal getAmount() { return amount; }
+    public void setAmount(BigDecimal amount) { this.amount = amount; }
 
-    public void setAmount(Double amount) {
-        this.amount = amount;
-    }
+    public LocalDate getOrderDate() { return orderDate; }
+    public void setOrderDate(LocalDate orderDate) { this.orderDate = orderDate; }
 
-    public void setOrderDate(LocalDate orderDate) {
-        this.orderDate = orderDate;
+    public Supplier getSupplier() { return supplier; }
+    public void setSupplier(Supplier supplier) { this.supplier = supplier; }
+
+    public SpendCategory getSpendCategory() { return spendCategory; }
+    public void setSpendCategory(SpendCategory spendCategory) {
+        this.spendCategory = spendCategory;
     }
 }
