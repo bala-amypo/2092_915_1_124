@@ -9,32 +9,32 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/suppliers")
-@Tag(name = "Supplier Management") [cite: 145, 181]
+@Tag(name = "Supplier Management")
 public class SupplierController {
     private final SupplierService supplierService;
 
     public SupplierController(SupplierService supplierService) {
-        this.supplierService = supplierService; [cite: 474]
+        this.supplierService = supplierService;
     }
 
     @PostMapping
-    @Operation(summary = "Create new supplier") [cite: 181]
+    @Operation(summary = "Create new supplier")
     public Supplier create(@RequestBody Supplier supplier) {
-        return supplierService.createSupplier(supplier); [cite: 113, 147]
+        return supplierService.createSupplier(supplier);
     }
 
     @GetMapping
     public List<Supplier> getAll() {
-        return supplierService.getAllSuppliers(); [cite: 116, 150]
+        return supplierService.getAllSuppliers();
     }
 
     @GetMapping("/{id}")
     public Supplier getById(@PathVariable Long id) {
-        return supplierService.getSupplierById(id); [cite: 115, 149]
+        return supplierService.getSupplierById(id);
     }
 
     @PutMapping("/{id}/deactivate")
     public Supplier deactivate(@PathVariable Long id) {
-        return supplierService.deactivateSupplier(id); [cite: 117, 151]
+        return supplierService.deactivateSupplier(id);
     }
 }
