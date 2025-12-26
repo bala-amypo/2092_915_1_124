@@ -25,21 +25,18 @@ public class DiversityTargetServiceImpl implements DiversityTargetService {
 
     @Override
     public List<DiversityTarget> getActiveTargets() {
-        // This name must match the interface signature
         return repository.findByActiveTrue();
     }
 
     @Override
     public List<DiversityTarget> getTargetsByYear(Integer year) {
-        // Matches interface: plural 'Targets' and 'Integer' wrapper
         return repository.findByTargetYear(year);
     }
 
     @Override
     public void deactivateTarget(Long id) {
-        // Matches interface: 'deactivateTarget'
         DiversityTarget target = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Target not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Target not found"));
         target.setActive(false);
         repository.save(target);
     }
