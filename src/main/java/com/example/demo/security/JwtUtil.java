@@ -1,32 +1,24 @@
 package com.example.demo.security;
 
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import java.util.Date;
-import java.util.function.Function;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 import javax.crypto.SecretKey;
 
 @Component
 public class JwtUtil {
+    @Value("${jwt.secret}")
+    private String secret;
 
-    private final String secret;
-    private final Long expirationMs;
-
-    public JwtUtil(@Value("${jwt.secret}") String secret, 
-                   @Value("${jwt.expiration}") Long expirationMs) {
-        this.secret = secret;
-        this.expirationMs = expirationMs;
-    }
+    @Value("${jwt.expiration}")
+    private Long expirationMs;
 
     private SecretKey getSigningKey() {
-        // Ensures the string is converted to bytes correctly for the Key
-        byte[] keyBytes = this.secret.getBytes(StandardCharsets.UTF_8);
-        return Keys.hmacShaKeyFor(keyBytes);
+        return Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 
     public String generateToken(String email) {
@@ -36,18 +28,5 @@ public class JwtUtil {
                 .setExpiration(new Date(System.currentTimeMillis() + expirationMs))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
-    }
-
-    public String extractEmail(String token) {
-        return extractClaim(token, Claims::getSubject);
-    }
-
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = Jwts.parserBuilder()
-                .setSigningKey(getSigningKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-        return claimsResolver.apply(claims);
     }
 }
