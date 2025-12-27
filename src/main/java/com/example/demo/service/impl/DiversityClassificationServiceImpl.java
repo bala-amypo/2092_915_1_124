@@ -1,32 +1,35 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.entity.DiversityClassification;
-import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.repository.DiversityClassificationRepository;
-import com.example.demo.service.DiversityClassificationService;
+import com.example.demo.entity.DiversityTarget;
+import com.example.demo.repository.DiversityTargetRepository;
+import com.example.demo.service.DiversityTargetService;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
-public class DiversityClassificationServiceImpl implements DiversityClassificationService {
-    private final DiversityClassificationRepository repository;
+public class DiversityTargetServiceImpl implements DiversityTargetService {
 
-    public DiversityClassificationServiceImpl(DiversityClassificationRepository repository) {
+    private final DiversityTargetRepository repository;
+
+    public DiversityTargetServiceImpl(DiversityTargetRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public DiversityClassification createClassification(DiversityClassification classification) {
-        if (classification.getCode() != null) {
-            classification.setCode(classification.getCode().toUpperCase());
-        }
-        return repository.save(classification);
+    public DiversityTarget create(DiversityTarget target) {
+        return repository.save(target);
     }
 
     @Override
-    public List<DiversityClassification> getActiveClassifications() {
-        return repository.findByIsActiveTrue();
+    public List<DiversityTarget> getAll() {
+        return repository.findAll();
+    }
+
+    @Override
+    public void deactivateTarget(Long id) {
+        repository.findById(id).ifPresent(target -> {
+            target.setActive(false);
+            repository.save(target);
+        });
     }
 }
