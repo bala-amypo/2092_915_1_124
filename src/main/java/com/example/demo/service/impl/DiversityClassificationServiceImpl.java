@@ -1,35 +1,28 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.entity.DiversityTarget;
-import com.example.demo.repository.DiversityTargetRepository;
-import com.example.demo.service.DiversityTargetService;
+import com.example.demo.entity.DiversityClassification;
+import com.example.demo.repository.DiversityClassificationRepository;
+import com.example.demo.service.DiversityClassificationService;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
-public class DiversityTargetServiceImpl implements DiversityTargetService {
+public class DiversityClassificationServiceImpl implements DiversityClassificationService {
 
-    private final DiversityTargetRepository repository;
+    private final DiversityClassificationRepository repository;
 
-    public DiversityTargetServiceImpl(DiversityTargetRepository repository) {
+    public DiversityClassificationServiceImpl(DiversityClassificationRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public DiversityTarget create(DiversityTarget target) {
-        return repository.save(target);
+    public DiversityClassification create(DiversityClassification classification) {
+        return repository.save(classification);
     }
 
     @Override
-    public List<DiversityTarget> getAll() {
+    public List<DiversityClassification> getAll() {
         return repository.findAll();
-    }
-
-    @Override
-    public void deactivateTarget(Long id) {
-        repository.findById(id).ifPresent(target -> {
-            target.setActive(false);
-            repository.save(target);
-        });
     }
 }

@@ -4,10 +4,7 @@ import com.example.demo.entity.Supplier;
 import java.util.List;
 
 public interface SupplierService {
-
     Supplier create(Supplier supplier);
-
     List<Supplier> getAll();
-
-    void deactivateSupplier(Long id); // 👈 THIS NAME
+    void deactivateSupplier(Long id);
 }
