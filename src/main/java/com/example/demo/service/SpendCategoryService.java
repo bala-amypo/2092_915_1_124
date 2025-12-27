@@ -4,6 +4,6 @@ import com.example.demo.entity.SpendCategory;
 import java.util.List;
 
 public interface SpendCategoryService {
-    SpendCategory create(SpendCategory category);
-    List<SpendCategory> getAll();
+    SpendCategory createCategory(SpendCategory category);   // matches controller
+    List<SpendCategory> getActiveCategories();              // matches controller
 }

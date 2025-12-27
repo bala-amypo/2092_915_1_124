@@ -17,12 +17,12 @@ public class SpendCategoryServiceImpl implements SpendCategoryService {
     }
 
     @Override
-    public SpendCategory create(SpendCategory category) {
+    public SpendCategory createCategory(SpendCategory category) {
         return repository.save(category);
     }
 
     @Override
-    public List<SpendCategory> getAll() {
-        return repository.findAll();
+    public List<SpendCategory> getActiveCategories() {
+        return repository.findByIsActiveTrue();
     }
 }
