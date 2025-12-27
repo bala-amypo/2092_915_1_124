@@ -12,5 +12,6 @@ public class DiversityTarget {
     private Long id;
 
     private String name;
-    private boolean isActive;
+
+    private boolean active;   // ✅ FIXED
 }
