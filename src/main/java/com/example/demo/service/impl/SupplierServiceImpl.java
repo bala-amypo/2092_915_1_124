@@ -3,38 +3,33 @@ package com.example.demo.service.impl;
 import com.example.demo.entity.Supplier;
 import com.example.demo.repository.SupplierRepository;
 import com.example.demo.service.SupplierService;
-import com.example.demo.exception.ResourceNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class SupplierServiceImpl implements SupplierService {
-    private final SupplierRepository supplierRepo;
 
-    public SupplierServiceImpl(SupplierRepository supplierRepo) {
-        this.supplierRepo = supplierRepo;
+    private final SupplierRepository repository;
+
+    @Override
+    public Supplier create(Supplier supplier) {
+        supplier.setActive(true); // ✅ FIXED
+        return repository.save(supplier);
     }
 
     @Override
-    public Supplier createSupplier(Supplier supplier) {
-        return supplierRepo.save(supplier);
+    public List<Supplier> getAll() {
+        return repository.findAll();
     }
 
     @Override
-    public List<Supplier> getAllSuppliers() {
-        return supplierRepo.findAll();
-    }
-
-    @Override
-    public Supplier getSupplierById(Long id) {
-        return supplierRepo.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Supplier not found"));
-    }
-
-    @Override
-    public Supplier deactivateSupplier(Long id) {
-        Supplier supplier = getSupplierById(id);
-        supplier.setIsActive(false);
-        return supplierRepo.save(supplier);
+    public void deactivate(Long id) {
+        Supplier supplier = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Supplier not found"));
+        supplier.setActive(false); // ✅ FIXED
+        repository.save(supplier);
     }
 }
