@@ -17,12 +17,12 @@ public class DiversityClassificationServiceImpl implements DiversityClassificati
     }
 
     @Override
-    public DiversityClassification create(DiversityClassification classification) {
+    public DiversityClassification createClassification(DiversityClassification classification) {
         return repository.save(classification);
     }
 
     @Override
-    public List<DiversityClassification> getAll() {
-        return repository.findAll();
+    public List<DiversityClassification> getActiveClassifications() {
+        return repository.findByIsActiveTrue();
     }
 }

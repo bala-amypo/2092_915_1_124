@@ -17,8 +17,13 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
-    public UserAccount create(UserAccount user) {
+    public UserAccount register(UserAccount user) {
         return repository.save(user);
+    }
+
+    @Override
+    public UserAccount login(String email, String password) {
+        return repository.findByEmailAndPassword(email, password).orElse(null);
     }
 
     @Override
