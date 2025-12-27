@@ -1,13 +1,25 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.DiversityTarget;
+import com.example.demo.repository.DiversityTargetRepository;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
-public interface DiversityTargetService {
+@Service
+public class DiversityTargetService {
 
-    DiversityTarget create(DiversityTarget target);
+    private final DiversityTargetRepository repository;
 
-    List<DiversityTarget> getAll();
+    public DiversityTargetService(DiversityTargetRepository repository) {
+        this.repository = repository;
+    }
 
-    void deactivateTarget(Long id); // 👈 THIS NAME
+    public List<DiversityTarget> getActiveTargets() {
+        return repository.findByActiveTrue();
+    }
+
+    public DiversityTarget saveTarget(DiversityTarget target) {
+        return repository.save(target);
+    }
 }
