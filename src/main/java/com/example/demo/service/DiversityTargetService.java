@@ -4,8 +4,10 @@ import com.example.demo.entity.DiversityTarget;
 import java.util.List;
 
 public interface DiversityTargetService {
-    DiversityTarget createTarget(DiversityTarget target);
-    List<DiversityTarget> getActiveTargets();
-    List<DiversityTarget> getTargetsByYear(Integer year); // Must be plural
-    void deactivateTarget(Long id); // Must match this name
+
+    DiversityTarget create(DiversityTarget target);
+
+    List<DiversityTarget> getAll();
+
+    void deactivateTarget(Long id); // 👈 THIS NAME
 }

@@ -16,7 +16,7 @@ public class DiversityTargetServiceImpl implements DiversityTargetService {
 
     @Override
     public DiversityTarget create(DiversityTarget target) {
-        target.setActive(true); // ✅ FIXED
+        target.setActive(true);
         return repository.save(target);
     }
 
@@ -26,10 +26,10 @@ public class DiversityTargetServiceImpl implements DiversityTargetService {
     }
 
     @Override
-    public void deactivate(Long id) {
+    public void deactivateTarget(Long id) { // ✅ NAME MATCHED
         DiversityTarget target = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Target not found"));
-        target.setActive(false); // ✅ FIXED
+        target.setActive(false);
         repository.save(target);
     }
 }

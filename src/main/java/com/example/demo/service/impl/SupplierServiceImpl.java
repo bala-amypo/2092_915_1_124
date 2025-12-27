@@ -16,7 +16,7 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public Supplier create(Supplier supplier) {
-        supplier.setActive(true); // ✅ FIXED
+        supplier.setActive(true);
         return repository.save(supplier);
     }
 
@@ -26,10 +26,10 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public void deactivate(Long id) {
+    public void deactivateSupplier(Long id) { // ✅ NAME MATCHED
         Supplier supplier = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Supplier not found"));
-        supplier.setActive(false); // ✅ FIXED
+        supplier.setActive(false);
         repository.save(supplier);
     }
 }
