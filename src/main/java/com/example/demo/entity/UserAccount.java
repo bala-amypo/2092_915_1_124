@@ -10,9 +10,10 @@ public class UserAccount {
     private Long id;
 
     private String email;
+
     private String password;
 
-    // Getters & Setters
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
