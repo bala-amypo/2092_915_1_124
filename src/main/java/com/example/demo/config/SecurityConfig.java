@@ -18,15 +18,13 @@ public class SecurityConfig {
                 auth.requestMatchers("/auth/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                     .anyRequest().authenticated()
             );
-
         return http.build();
     }
 
     @Bean
     @Profile("test")
     public SecurityFilterChain testFilterChain(HttpSecurity http) throws Exception {
-        http
-            .csrf(csrf -> csrf.disable())
+        http.csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
         return http.build();
     }

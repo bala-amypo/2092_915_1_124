@@ -9,7 +9,6 @@ import java.util.Date;
 
 @Component
 public class JwtUtil {
-
     private static final String SECRET = "testsecretkeytestsecretkey123456789012345";
     private final Key key = Keys.hmacShaKeyFor(SECRET.getBytes());
 
