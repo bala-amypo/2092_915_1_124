@@ -13,8 +13,9 @@ public class PurchaseOrder {
     private Long id;
 
     private String orderNumber;
+    private boolean active = true;
 
     @ManyToOne
-    @JoinColumn(name="spend_category_id")
+    @JoinColumn(name = "spend_category_id")
     private SpendCategory spendCategory;
 }

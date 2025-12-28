@@ -13,6 +13,5 @@ public class SpendCategory {
     private Long id;
 
     private String name;
-
     private boolean active = true;
 }

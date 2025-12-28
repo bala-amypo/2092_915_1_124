@@ -13,6 +13,5 @@ public class DiversityClassification {
     private Long id;
 
     private String name;
-
     private boolean active = true;
 }
