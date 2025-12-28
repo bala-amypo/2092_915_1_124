@@ -7,6 +7,8 @@ public interface UserAccountService {
 
     UserAccount register(UserAccount user);
 
+    UserAccount login(String email, String password);
+
     UserAccount findByEmailOrThrow(String email);
 
     List<UserAccount> getAll();

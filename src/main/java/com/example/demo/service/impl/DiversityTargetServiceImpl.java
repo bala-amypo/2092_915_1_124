@@ -9,11 +9,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class DiversityTargetServiceImpl implements DiversityTargetService {
+public class DiversityTargetServiceImpl
+        implements DiversityTargetService {
 
     private final DiversityTargetRepository repository;
 
-    public DiversityTargetServiceImpl(DiversityTargetRepository repository) {
+    public DiversityTargetServiceImpl(
+            DiversityTargetRepository repository) {
         this.repository = repository;
     }
 

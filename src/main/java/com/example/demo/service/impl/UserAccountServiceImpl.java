@@ -32,6 +32,18 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
+    public UserAccount login(String email, String password) {
+        UserAccount user = repository.findByEmail(email)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("User not found"));
+
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new BadRequestException("Invalid credentials");
+        }
+        return user;
+    }
+
+    @Override
     public UserAccount findByEmailOrThrow(String email) {
         return repository.findByEmail(email)
                 .orElseThrow(() ->

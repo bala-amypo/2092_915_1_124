@@ -7,7 +7,18 @@ public interface DiversityClassificationService {
 
     DiversityClassification create(DiversityClassification classification);
 
+    // REQUIRED BY CONTROLLER
+    default DiversityClassification createClassification(
+            DiversityClassification classification) {
+        return create(classification);
+    }
+
     List<DiversityClassification> getActive();
+
+    // REQUIRED BY CONTROLLER
+    default List<DiversityClassification> getActiveClassifications() {
+        return getActive();
+    }
 
     List<DiversityClassification> getAll();
 
