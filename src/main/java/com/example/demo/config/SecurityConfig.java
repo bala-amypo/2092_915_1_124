@@ -24,7 +24,7 @@ public class SecurityConfig {
                 ).permitAll()
                 .anyRequest().authenticated()
             )
-            .httpBasic(http -> {})        // enable basic auth
+            .httpBasic(basic -> {})        // enable basic auth
             .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin())); // for H2 console
 
         return http.build();
