@@ -13,6 +13,7 @@ public class DiversityTarget {
     private Long id;
 
     private int targetYear;
-
     private double targetValue;
+    private boolean active = true;
+    private String description;
 }
