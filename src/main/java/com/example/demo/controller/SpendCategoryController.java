@@ -2,25 +2,28 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.SpendCategory;
 import com.example.demo.service.SpendCategoryService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/spend-categories")
-@RequiredArgsConstructor
-@CrossOrigin
+@RequestMapping("/spend-category")
 public class SpendCategoryController {
 
     private final SpendCategoryService service;
+
+    @Autowired
+    public SpendCategoryController(SpendCategoryService service) {
+        this.service = service;
+    }
 
     @PostMapping
     public SpendCategory create(@RequestBody SpendCategory category) {
         return service.create(category);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public List<SpendCategory> getAll() {
         return service.getAll();
     }
@@ -30,7 +33,7 @@ public class SpendCategoryController {
         return service.getActive();
     }
 
-    @PutMapping("/{id}/deactivate")
+    @PutMapping("/deactivate/{id}")
     public SpendCategory deactivate(@PathVariable Long id) {
         return service.deactivate(id);
     }

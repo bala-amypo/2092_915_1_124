@@ -2,25 +2,28 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.DiversityClassification;
 import com.example.demo.service.DiversityClassificationService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/diversity-classifications")
-@RequiredArgsConstructor
-@CrossOrigin
+@RequestMapping("/diversity-classification")
 public class DiversityClassificationController {
 
     private final DiversityClassificationService service;
+
+    @Autowired
+    public DiversityClassificationController(DiversityClassificationService service) {
+        this.service = service;
+    }
 
     @PostMapping
     public DiversityClassification create(@RequestBody DiversityClassification classification) {
         return service.create(classification);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public List<DiversityClassification> getAll() {
         return service.getAll();
     }
@@ -28,5 +31,10 @@ public class DiversityClassificationController {
     @GetMapping("/active")
     public List<DiversityClassification> getActive() {
         return service.getActive();
+    }
+
+    @PutMapping("/deactivate/{id}")
+    public DiversityClassification deactivate(@PathVariable Long id) {
+        return service.deactivate(id);
     }
 }

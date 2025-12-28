@@ -1,30 +1,40 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.UserAccount;
-import com.example.demo.security.JwtUtil;
 import com.example.demo.service.UserAccountService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/auth")
-@RequiredArgsConstructor
-@CrossOrigin
 public class AuthController {
 
     private final UserAccountService service;
-    private final JwtUtil jwtUtil;
 
-    @PostMapping("/register")
-    public ResponseEntity<UserAccount> register(@RequestBody UserAccount user) {
-        return ResponseEntity.ok(service.create(user));
+    @Autowired
+    public AuthController(UserAccountService service) {
+        this.service = service;
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam String email) {
-        UserAccount user = service.findByEmail(email);
-        String token = jwtUtil.generateToken(user.getEmail());
-        return ResponseEntity.ok(token);
+    @PostMapping("/register")
+    public UserAccount create(@RequestBody UserAccount userAccount) {
+        return service.create(userAccount);
+    }
+
+    @GetMapping("/all")
+    public List<UserAccount> getAll() {
+        return service.getAll();
+    }
+
+    @GetMapping("/active")
+    public List<UserAccount> getActive() {
+        return service.getActive();
+    }
+
+    @PutMapping("/deactivate/{id}")
+    public UserAccount deactivate(@PathVariable Long id) {
+        return service.deactivate(id);
     }
 }

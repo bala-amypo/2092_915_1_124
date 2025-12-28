@@ -2,25 +2,28 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.PurchaseOrder;
 import com.example.demo.service.PurchaseOrderService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/purchase-orders")
-@RequiredArgsConstructor
-@CrossOrigin
+@RequestMapping("/purchase-order")
 public class PurchaseOrderController {
 
     private final PurchaseOrderService service;
+
+    @Autowired
+    public PurchaseOrderController(PurchaseOrderService service) {
+        this.service = service;
+    }
 
     @PostMapping
     public PurchaseOrder create(@RequestBody PurchaseOrder order) {
         return service.create(order);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public List<PurchaseOrder> getAll() {
         return service.getAll();
     }
@@ -30,7 +33,7 @@ public class PurchaseOrderController {
         return service.getActive();
     }
 
-    @PutMapping("/{id}/deactivate")
+    @PutMapping("/deactivate/{id}")
     public PurchaseOrder deactivate(@PathVariable Long id) {
         return service.deactivate(id);
     }
