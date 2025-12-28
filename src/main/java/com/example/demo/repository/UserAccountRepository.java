@@ -5,4 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserAccountRepository extends JpaRepository<UserAccount, Long> {
     UserAccount findByEmailAndPassword(String email, String password);
+
+    // Add this method for CustomUserDetailsService
+    UserAccount findByEmail(String email);
 }
