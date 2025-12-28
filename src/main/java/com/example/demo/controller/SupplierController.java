@@ -1,31 +1,30 @@
-package com.example.demo.controller;
-
-import com.example.demo.entity.Supplier;
-import com.example.demo.service.SupplierService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-
 @RestController
-@RequestMapping("/api/suppliers")
-@RequiredArgsConstructor
+@RequestMapping("/supplier")
 public class SupplierController {
 
-    private final SupplierService supplierService;
+    private final SupplierService service;
+
+    public SupplierController(SupplierService service) {
+        this.service = service;
+    }
 
     @PostMapping
     public Supplier create(@RequestBody Supplier supplier) {
-        return supplierService.create(supplier); // ✅ FIXED
+        return service.create(supplier);
+    }
+
+    @GetMapping("/active")
+    public List<Supplier> getActive() {
+        return service.getActive();
     }
 
     @GetMapping
     public List<Supplier> getAll() {
-        return supplierService.getAll(); // ✅ FIXED
+        return service.getAll();
     }
 
-    @DeleteMapping("/{id}")
-    public void deactivate(@PathVariable Long id) {
-        supplierService.deactivateSupplier(id); // ✅ FIXED
+    @PutMapping("/deactivate/{id}")
+    public Supplier deactivate(@PathVariable Long id) {
+        return service.deactivate(id);
     }
 }

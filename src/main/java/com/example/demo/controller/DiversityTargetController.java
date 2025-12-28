@@ -1,31 +1,30 @@
-package com.example.demo.controller;
-
-import com.example.demo.entity.DiversityTarget;
-import com.example.demo.service.DiversityTargetService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-
 @RestController
-@RequestMapping("/api/diversity-targets")
-@RequiredArgsConstructor
+@RequestMapping("/diversity-target")
 public class DiversityTargetController {
 
     private final DiversityTargetService service;
 
+    public DiversityTargetController(DiversityTargetService service) {
+        this.service = service;
+    }
+
     @PostMapping
     public DiversityTarget create(@RequestBody DiversityTarget target) {
-        return service.create(target); // ✅ FIXED
+        return service.create(target);
+    }
+
+    @GetMapping("/year/{year}")
+    public List<DiversityTarget> getByYear(@PathVariable int year) {
+        return service.getByYear(year);
     }
 
     @GetMapping
     public List<DiversityTarget> getAll() {
-        return service.getAll(); // ✅ FIXED
+        return service.getAll();
     }
 
-    @DeleteMapping("/{id}")
-    public void deactivate(@PathVariable Long id) {
-        service.deactivateTarget(id); // ✅ FIXED
+    @PutMapping("/deactivate/{id}")
+    public DiversityTarget deactivate(@PathVariable Long id) {
+        return service.deactivate(id);
     }
 }
