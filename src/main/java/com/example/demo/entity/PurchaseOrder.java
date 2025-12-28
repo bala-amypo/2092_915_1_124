@@ -8,36 +8,38 @@ import java.time.LocalDate;
 public class PurchaseOrder {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
+    private String poNumber;
     private BigDecimal amount;
-
-    private LocalDate orderDate;
+    private LocalDate dateIssued;
+    private String notes;
 
     @ManyToOne
-    @JoinColumn(name = "supplier_id")
     private Supplier supplier;
 
     @ManyToOne
-    @JoinColumn(name = "spend_category_id")
-    private SpendCategory spendCategory;
+    private SpendCategory category;
 
-    // getters & setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
+
+    public String getPoNumber() { return poNumber; }
+    public void setPoNumber(String poNumber) { this.poNumber = poNumber; }
 
     public BigDecimal getAmount() { return amount; }
     public void setAmount(BigDecimal amount) { this.amount = amount; }
 
-    public LocalDate getOrderDate() { return orderDate; }
-    public void setOrderDate(LocalDate orderDate) { this.orderDate = orderDate; }
+    public LocalDate getDateIssued() { return dateIssued; }
+    public void setDateIssued(LocalDate dateIssued) { this.dateIssued = dateIssued; }
 
     public Supplier getSupplier() { return supplier; }
     public void setSupplier(Supplier supplier) { this.supplier = supplier; }
 
-    public SpendCategory getSpendCategory() { return spendCategory; }
-    public void setSpendCategory(SpendCategory spendCategory) {
-        this.spendCategory = spendCategory;
-    }
+    public SpendCategory getCategory() { return category; }
+    public void setCategory(SpendCategory category) { this.category = category; }
+
+    public String getNotes() { return notes; }
+    public void setNotes(String notes) { this.notes = notes; }
 }

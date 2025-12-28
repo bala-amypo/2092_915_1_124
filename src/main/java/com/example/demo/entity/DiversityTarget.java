@@ -6,20 +6,35 @@ import jakarta.persistence.*;
 public class DiversityTarget {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
-    private String name;
-    
-    private boolean active; // Make sure this exists
+    private Integer targetYear;
+    private Double targetPercentage;
+    private Boolean active;
 
-    // Getters and Setters
+    @ManyToOne
+    private DiversityClassification classification;
+
+    @PrePersist
+    public void preSave() {
+        if (active == null) active = true;
+    }
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public Integer getTargetYear() { return targetYear; }
+    public void setTargetYear(Integer targetYear) { this.targetYear = targetYear; }
 
-    public boolean isActive() { return active; } // Getter
-    public void setActive(boolean active) { this.active = active; } // Setter
+    public Double getTargetPercentage() { return targetPercentage; }
+    public void setTargetPercentage(Double targetPercentage) { this.targetPercentage = targetPercentage; }
+
+    public Boolean getActive() { return active; }
+    public void setActive(Boolean active) { this.active = active; }
+
+    public DiversityClassification getClassification() { return classification; }
+    public void setClassification(DiversityClassification classification) {
+        this.classification = classification;
+    }
 }
