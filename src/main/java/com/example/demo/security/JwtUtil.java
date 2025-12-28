@@ -13,13 +13,14 @@ public class JwtUtil {
         this.expiration = expiration;
     }
 
-    public String generateToken(Long id, String email, String role) {
+    public String generateToken(Long userId, String email, String role) {
         return Jwts.builder()
                 .setSubject(email)
                 .claim("role", role)
-                .claim("userId", id)
+                .claim("userId", userId)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + expiration))
+                .setExpiration(
+                        new Date(System.currentTimeMillis() + expiration))
                 .signWith(SignatureAlgorithm.HS256, secret)
                 .compact();
     }
@@ -33,6 +34,17 @@ public class JwtUtil {
         }
     }
 
+    // REQUIRED BY JwtAuthenticationFilter
+    public String extractUsername(String token) {
+        return extractEmail(token);
+    }
+
+    public boolean isTokenValid(String token, String username) {
+        return validateToken(token)
+                && extractEmail(token).equals(username);
+    }
+
+    // REQUIRED BY TESTS
     public String extractEmail(String token) {
         return getClaims(token).getSubject();
     }
@@ -46,7 +58,9 @@ public class JwtUtil {
     }
 
     private Claims getClaims(String token) {
-        return Jwts.parser().setSigningKey(secret)
-                .parseClaimsJws(token).getBody();
+        return Jwts.parser()
+                .setSigningKey(secret)
+                .parseClaimsJws(token)
+                .getBody();
     }
 }

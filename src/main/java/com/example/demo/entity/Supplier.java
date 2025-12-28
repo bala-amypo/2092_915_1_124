@@ -28,7 +28,14 @@ public class Supplier {
         createdAt = LocalDateTime.now();
     }
 
-    // getters & setters
+    // REQUIRED by tests
+    public void setActive(boolean active) {
+        this.isActive = active;
+    }
+
+    public Boolean getIsActive() { return isActive; }
+
+    // getters/setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -36,18 +43,19 @@ public class Supplier {
     public void setName(String name) { this.name = name; }
 
     public String getRegistrationNumber() { return registrationNumber; }
-    public void setRegistrationNumber(String registrationNumber) { this.registrationNumber = registrationNumber; }
+    public void setRegistrationNumber(String registrationNumber) {
+        this.registrationNumber = registrationNumber;
+    }
 
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
 
-    public Boolean getIsActive() { return isActive; }
-    public void setIsActive(Boolean isActive) { this.isActive = isActive; }
-
     public LocalDateTime getCreatedAt() { return createdAt; }
 
     public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 
     public Set<DiversityClassification> getDiversityClassifications() {
         return diversityClassifications;

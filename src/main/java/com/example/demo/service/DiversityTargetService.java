@@ -1,10 +1,15 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.DiversityTarget;
+import com.example.demo.entity.DiversityClassification;
 import java.util.List;
 
-public interface DiversityTargetService {
-    DiversityTarget create(DiversityTarget target);
-    List<DiversityTarget> getAll();
-    void deactivateTarget(Long id);
+public interface DiversityClassificationService {
+
+    DiversityClassification createClassification(DiversityClassification classification);
+
+    List<DiversityClassification> getActiveClassifications();
+
+    List<DiversityClassification> getAll();
+
+    DiversityClassification deactivateClassification(Long id);
 }
