@@ -1,3 +1,10 @@
+package com.example.demo.controller;
+
+import com.example.demo.entity.DiversityTarget;
+import com.example.demo.service.DiversityTargetService;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+
 @RestController
 @RequestMapping("/diversity-target")
 public class DiversityTargetController {

@@ -1,3 +1,10 @@
+package com.example.demo.controller;
+
+import com.example.demo.entity.SpendCategory;
+import com.example.demo.service.SpendCategoryService;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+
 @RestController
 @RequestMapping("/spend-category")
 public class SpendCategoryController {
