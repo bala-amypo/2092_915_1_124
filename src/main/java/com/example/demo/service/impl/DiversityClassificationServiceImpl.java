@@ -20,13 +20,13 @@ public class DiversityClassificationServiceImpl
     }
 
     @Override
-    public DiversityClassification createClassification(
+    public DiversityClassification create(
             DiversityClassification classification) {
         return repository.save(classification);
     }
 
     @Override
-    public List<DiversityClassification> getActiveClassifications() {
+    public List<DiversityClassification> getActive() {
         return repository.findByActiveTrue();
     }
 
@@ -36,7 +36,7 @@ public class DiversityClassificationServiceImpl
     }
 
     @Override
-    public DiversityClassification deactivateClassification(Long id) {
+    public DiversityClassification deactivate(Long id) {
         DiversityClassification dc = repository.findById(id)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Classification not found"));
