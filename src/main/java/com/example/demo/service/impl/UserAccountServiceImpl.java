@@ -8,6 +8,8 @@ import com.example.demo.service.UserAccountService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserAccountServiceImpl implements UserAccountService {
 
@@ -34,5 +36,10 @@ public class UserAccountServiceImpl implements UserAccountService {
         return repository.findByEmail(email)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("User not found"));
+    }
+
+    @Override
+    public List<UserAccount> getAll() {
+        return repository.findAll();
     }
 }
