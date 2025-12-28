@@ -13,14 +13,19 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .cors().and()               // enable CORS
-            .csrf().disable()           // disable CSRF
+            .cors(cors -> {})            // enable CORS
+            .csrf(csrf -> csrf.disable()) // disable CSRF
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**", "/h2-console/**").permitAll()
+                .requestMatchers(
+                    "/v3/api-docs/**",
+                    "/swagger-ui.html",
+                    "/swagger-ui/**",
+                    "/h2-console/**"
+                ).permitAll()
                 .anyRequest().authenticated()
             )
-            .httpBasic().and()
-            .headers(headers -> headers.frameOptions().sameOrigin()); // for H2 console
+            .httpBasic(http -> {})        // enable basic auth
+            .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin())); // for H2 console
 
         return http.build();
     }
