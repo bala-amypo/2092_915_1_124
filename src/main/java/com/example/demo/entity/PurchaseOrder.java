@@ -1,12 +1,13 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
-@Data
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class PurchaseOrder {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -14,10 +15,6 @@ public class PurchaseOrder {
     private String orderNumber;
 
     @ManyToOne
-    @JoinColumn(name = "spend_category_id") // FK column
+    @JoinColumn(name="spend_category_id")
     private SpendCategory spendCategory;
-
-    private Double amount;
-
-    private boolean active = true;
 }
