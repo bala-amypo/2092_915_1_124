@@ -21,19 +21,14 @@ public class SpendCategoryServiceImpl implements SpendCategoryService {
     }
 
     @Override
-    public List<SpendCategory> getAll() {
-        return repository.findAll();
-    }
-
-    @Override
     public List<SpendCategory> getActive() {
         return repository.findByActiveTrue();
     }
 
     @Override
-    public SpendCategory deactivate(Long id) {
+    public void deactivate(Long id) {
         SpendCategory category = repository.findById(id).orElseThrow();
         category.setActive(false);
-        return repository.save(category);
+        repository.save(category);
     }
 }

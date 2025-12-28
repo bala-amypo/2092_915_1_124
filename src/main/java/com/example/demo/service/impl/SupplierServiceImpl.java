@@ -21,19 +21,14 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public List<Supplier> getAll() {
-        return repository.findAll();
-    }
-
-    @Override
     public List<Supplier> getActive() {
         return repository.findByActiveTrue();
     }
 
     @Override
-    public Supplier deactivate(Long id) {
+    public void deactivate(Long id) {
         Supplier supplier = repository.findById(id).orElseThrow();
         supplier.setActive(false);
-        return repository.save(supplier);
+        repository.save(supplier);
     }
 }
