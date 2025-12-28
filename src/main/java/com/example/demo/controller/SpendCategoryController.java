@@ -4,11 +4,10 @@ import com.example.demo.entity.SpendCategory;
 import com.example.demo.service.SpendCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
-@RequestMapping("/spend-category")
+@RequestMapping("/spend-categories")
 public class SpendCategoryController {
 
     private final SpendCategoryService service;
@@ -18,7 +17,7 @@ public class SpendCategoryController {
         this.service = service;
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public SpendCategory create(@RequestBody SpendCategory category) {
         return service.create(category);
     }

@@ -4,11 +4,10 @@ import com.example.demo.entity.Supplier;
 import com.example.demo.service.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
-@RequestMapping("/supplier")
+@RequestMapping("/suppliers")
 public class SupplierController {
 
     private final SupplierService service;
@@ -18,7 +17,7 @@ public class SupplierController {
         this.service = service;
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public Supplier create(@RequestBody Supplier supplier) {
         return service.create(supplier);
     }

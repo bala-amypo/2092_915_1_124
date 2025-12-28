@@ -4,11 +4,10 @@ import com.example.demo.entity.PurchaseOrder;
 import com.example.demo.service.PurchaseOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
-@RequestMapping("/purchase-order")
+@RequestMapping("/purchase-orders")
 public class PurchaseOrderController {
 
     private final PurchaseOrderService service;
@@ -18,7 +17,7 @@ public class PurchaseOrderController {
         this.service = service;
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public PurchaseOrder create(@RequestBody PurchaseOrder order) {
         return service.create(order);
     }

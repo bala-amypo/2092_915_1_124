@@ -4,11 +4,10 @@ import com.example.demo.entity.DiversityTarget;
 import com.example.demo.service.DiversityTargetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
-@RequestMapping("/diversity-target")
+@RequestMapping("/diversity-targets")
 public class DiversityTargetController {
 
     private final DiversityTargetService service;
@@ -18,7 +17,7 @@ public class DiversityTargetController {
         this.service = service;
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public DiversityTarget create(@RequestBody DiversityTarget target) {
         return service.create(target);
     }
@@ -28,8 +27,13 @@ public class DiversityTargetController {
         return service.getAll();
     }
 
+    @GetMapping("/active")
+    public List<DiversityTarget> getActive() {
+        return service.getActive();
+    }
+
     @GetMapping("/year/{year}")
-    public List<DiversityTarget> getByYear(@PathVariable int year) {
+    public DiversityTarget getByYear(@PathVariable int year) {
         return service.getByYear(year);
     }
 

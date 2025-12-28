@@ -4,7 +4,6 @@ import com.example.demo.entity.UserAccount;
 import com.example.demo.service.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -18,9 +17,9 @@ public class AuthController {
         this.service = service;
     }
 
-    @PostMapping("/register")
-    public UserAccount create(@RequestBody UserAccount userAccount) {
-        return service.create(userAccount);
+    @PostMapping("/create")
+    public UserAccount create(@RequestBody UserAccount user) {
+        return service.create(user);
     }
 
     @GetMapping("/all")

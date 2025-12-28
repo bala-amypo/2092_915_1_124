@@ -4,11 +4,10 @@ import com.example.demo.entity.DiversityClassification;
 import com.example.demo.service.DiversityClassificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
-@RequestMapping("/diversity-classification")
+@RequestMapping("/diversity-classifications")
 public class DiversityClassificationController {
 
     private final DiversityClassificationService service;
@@ -18,7 +17,7 @@ public class DiversityClassificationController {
         this.service = service;
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public DiversityClassification create(@RequestBody DiversityClassification classification) {
         return service.create(classification);
     }
