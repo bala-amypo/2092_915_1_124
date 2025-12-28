@@ -1,26 +1,29 @@
 package com.example.demo.controller;
 
-import java.util.List;
-import org.springframework.web.bind.annotation.*;
-import lombok.RequiredArgsConstructor;
-
 import com.example.demo.entity.DiversityClassification;
 import com.example.demo.service.DiversityClassificationService;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
-@RequestMapping("/api/diversity-classifications")
-@RequiredArgsConstructor
+@RequestMapping("/diversity-classification")
 public class DiversityClassificationController {
 
     private final DiversityClassificationService service;
 
+    public DiversityClassificationController(DiversityClassificationService service) {
+        this.service = service;
+    }
+
     @PostMapping
-    public DiversityClassification create(@RequestBody DiversityClassification dc) {
-        return service.createClassification(dc);
+    public DiversityClassification create(@RequestBody DiversityClassification obj) {
+        // Correct method call
+        return service.create(obj);
     }
 
     @GetMapping("/active")
     public List<DiversityClassification> getActive() {
-        return service.getActiveClassifications();
+        // Correct method call
+        return service.getActive();
     }
 }
