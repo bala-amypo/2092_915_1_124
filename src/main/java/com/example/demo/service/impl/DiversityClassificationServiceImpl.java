@@ -21,12 +21,14 @@ public class DiversityClassificationServiceImpl implements DiversityClassificati
     }
 
     @Override
-    public List<DiversityClassification> getAll() {
-        return repository.findAll();
+    public List<DiversityClassification> getActive() {
+        return repository.findByActiveTrue();
     }
 
     @Override
-    public List<DiversityClassification> getActive() {
-        return repository.findByActiveTrue();
+    public void deactivate(Long id) {
+        DiversityClassification classification = repository.findById(id).orElseThrow();
+        classification.setActive(false);
+        repository.save(classification);
     }
 }
