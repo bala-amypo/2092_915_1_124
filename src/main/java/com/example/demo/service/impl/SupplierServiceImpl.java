@@ -3,21 +3,29 @@ package com.example.demo.service.impl;
 import com.example.demo.entity.Supplier;
 import com.example.demo.repository.SupplierRepository;
 import com.example.demo.service.SupplierService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class SupplierServiceImpl implements SupplierService {
 
     private final SupplierRepository repository;
 
+    @Autowired
+    public SupplierServiceImpl(SupplierRepository repository) {
+        this.repository = repository;
+    }
+
     @Override
     public Supplier create(Supplier supplier) {
-        supplier.setActive(true);
         return repository.save(supplier);
+    }
+
+    @Override
+    public List<Supplier> getAll() {
+        return repository.findAll();
     }
 
     @Override
@@ -26,9 +34,9 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public void deactivate(Long id) {
+    public Supplier deactivate(Long id) {
         Supplier supplier = repository.findById(id).orElseThrow();
         supplier.setActive(false);
-        repository.save(supplier);
+        return repository.save(supplier);
     }
 }

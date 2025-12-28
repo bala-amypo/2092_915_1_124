@@ -5,6 +5,7 @@ import java.util.List;
 
 public interface SupplierService {
     Supplier create(Supplier supplier);
+    List<Supplier> getAll();
     List<Supplier> getActive();
-    void deactivate(Long id);
+    Supplier deactivate(Long id);
 }
