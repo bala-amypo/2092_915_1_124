@@ -5,6 +5,7 @@ import java.util.List;
 
 public interface PurchaseOrderService {
     PurchaseOrder create(PurchaseOrder order);
-    List<PurchaseOrder> findAll();
-    void deactivate(Long id);
+    List<PurchaseOrder> getAll();
+    List<PurchaseOrder> getActive();
+    PurchaseOrder deactivate(Long id);
 }

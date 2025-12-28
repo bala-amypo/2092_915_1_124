@@ -3,22 +3,40 @@ package com.example.demo.service.impl;
 import com.example.demo.entity.UserAccount;
 import com.example.demo.repository.UserAccountRepository;
 import com.example.demo.service.UserAccountService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
-@RequiredArgsConstructor
 public class UserAccountServiceImpl implements UserAccountService {
 
     private final UserAccountRepository repository;
 
-    @Override
-    public UserAccount create(UserAccount user) {
-        return repository.save(user);
+    @Autowired
+    public UserAccountServiceImpl(UserAccountRepository repository) {
+        this.repository = repository;
     }
 
     @Override
-    public UserAccount findByEmail(String email) {
-        return repository.findByEmail(email).orElse(null);
+    public UserAccount create(UserAccount userAccount) {
+        return repository.save(userAccount);
+    }
+
+    @Override
+    public List<UserAccount> getAll() {
+        return repository.findAll();
+    }
+
+    @Override
+    public List<UserAccount> getActive() {
+        return repository.findByActiveTrue();
+    }
+
+    @Override
+    public UserAccount deactivate(Long id) {
+        UserAccount user = repository.findById(id).orElseThrow();
+        user.setActive(false);
+        return repository.save(user);
     }
 }
