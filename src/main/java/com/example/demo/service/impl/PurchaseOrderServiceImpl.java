@@ -21,19 +21,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     @Override
-    public List<PurchaseOrder> getAll() {
+    public List<PurchaseOrder> findAll() {
         return repository.findAll();
     }
 
     @Override
-    public List<PurchaseOrder> getActive() {
-        return repository.findByActiveTrue();
-    }
-
-    @Override
-    public PurchaseOrder deactivate(Long id) {
+    public void deactivate(Long id) {
         PurchaseOrder order = repository.findById(id).orElseThrow();
         order.setActive(false);
-        return repository.save(order);
+        repository.save(order);
     }
 }

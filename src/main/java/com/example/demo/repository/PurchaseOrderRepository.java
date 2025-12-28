@@ -2,13 +2,8 @@ package com.example.demo.repository;
 
 import com.example.demo.entity.PurchaseOrder;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
-public interface PurchaseOrderRepository
-        extends JpaRepository<PurchaseOrder, Long> {
-
-    List<PurchaseOrder> findByActiveTrue();
-
-    List<PurchaseOrder> findBySpendCategory_Id(Long spendCategoryId);
+@Repository
+public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrder, Long> {
 }
