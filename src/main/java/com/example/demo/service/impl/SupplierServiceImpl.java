@@ -3,8 +3,8 @@ package com.example.demo.service.impl;
 import com.example.demo.entity.Supplier;
 import com.example.demo.repository.SupplierRepository;
 import com.example.demo.service.SupplierService;
-import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
@@ -34,7 +34,7 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public Supplier deactivate(Long id) {
-        Supplier supplier = repository.findById(id).orElseThrow();
+        Supplier supplier = repository.findById(id).orElseThrow(() -> new RuntimeException("Supplier not found"));
         supplier.setActive(false);
         return repository.save(supplier);
     }
