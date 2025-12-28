@@ -5,8 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface DiversityTargetRepository
-        extends JpaRepository<DiversityTarget, Long> {
+public interface DiversityTargetRepository extends JpaRepository<DiversityTarget, Long> {
 
-    List<DiversityTarget> findByYear(int year);
+    // ✅ REQUIRED BY DiversityTargetServiceImpl
+    List<DiversityTarget> findByTargetYear(int targetYear);
 }
