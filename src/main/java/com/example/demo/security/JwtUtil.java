@@ -13,7 +13,6 @@ public class JwtUtil {
     private static final String SECRET = "testsecretkeytestsecretkey123456789012345";
     private final Key key = Keys.hmacShaKeyFor(SECRET.getBytes());
 
-    // Generates token for a username
     public String generateToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
@@ -23,7 +22,6 @@ public class JwtUtil {
                 .compact();
     }
 
-    // Extract username from token
     public String extractUsername(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(key)
@@ -33,12 +31,6 @@ public class JwtUtil {
                 .getSubject();
     }
 
-    // ✅ This is the method missing
-    public boolean isTokenValid(String token, String username) {
-        return validateToken(token) && extractUsername(token).equals(username);
-    }
-
-    // Validate token (expiration + signature)
     public boolean validateToken(String token) {
         try {
             extractUsername(token);
@@ -46,5 +38,9 @@ public class JwtUtil {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public boolean isTokenValid(String token, String username) {
+        return validateToken(token) && extractUsername(token).equals(username);
     }
 }
