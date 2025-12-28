@@ -2,38 +2,35 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.PurchaseOrder;
 import com.example.demo.service.PurchaseOrderService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import jakarta.validation.Valid;
+
 import java.util.List;
 
 @RestController
-@RequestMapping("/purchase-order")
+@RequestMapping("/purchase-orders")
+@RequiredArgsConstructor
+@CrossOrigin
 public class PurchaseOrderController {
 
     private final PurchaseOrderService service;
 
-    public PurchaseOrderController(PurchaseOrderService service) {
-        this.service = service;
-    }
-
     @PostMapping
-    public PurchaseOrder create(@Valid @RequestBody PurchaseOrder order) {
-        // Call the correct service method
+    public PurchaseOrder create(@RequestBody PurchaseOrder order) {
         return service.create(order);
     }
 
     @GetMapping
     public List<PurchaseOrder> getAll() {
-        // Call the correct service method
         return service.getAll();
     }
 
-    @GetMapping("/by-spend-category/{id}")
-    public List<PurchaseOrder> getBySpendCategory(@PathVariable Long id) {
-        return service.getBySpendCategoryId(id);
+    @GetMapping("/active")
+    public List<PurchaseOrder> getActive() {
+        return service.getActive();
     }
 
-    @PutMapping("/deactivate/{id}")
+    @PutMapping("/{id}/deactivate")
     public PurchaseOrder deactivate(@PathVariable Long id) {
         return service.deactivate(id);
     }
