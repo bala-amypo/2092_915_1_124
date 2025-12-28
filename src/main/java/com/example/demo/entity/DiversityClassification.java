@@ -4,19 +4,17 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "diversity_classification")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "diversity_classification")
 public class DiversityClassification {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 255)
-    private String name;
+    private boolean active = true;
 
-    @Column(nullable = false)
-    private boolean active;
+    private String name;
 }

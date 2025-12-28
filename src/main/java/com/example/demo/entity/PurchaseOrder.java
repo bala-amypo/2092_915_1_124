@@ -4,15 +4,19 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "purchase_order")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "purchase_order")
 public class PurchaseOrder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private boolean active = true;
+
+    private float amount;
 
     @ManyToOne
     @JoinColumn(name = "spend_category_id")
@@ -21,10 +25,4 @@ public class PurchaseOrder {
     @ManyToOne
     @JoinColumn(name = "supplier_id")
     private Supplier supplier;
-
-    @Column(nullable = false)
-    private float amount;
-
-    @Column(nullable = false)
-    private boolean active;
 }

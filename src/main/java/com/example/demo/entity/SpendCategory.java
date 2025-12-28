@@ -4,19 +4,17 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "spend_category")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "spend_category")
 public class SpendCategory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 255)
-    private String name;
+    private boolean active = true;
 
-    @Column(nullable = false)
-    private boolean active;
+    private String name;
 }
