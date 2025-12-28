@@ -1,9 +1,13 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
 @Table(name = "diversity_target")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class DiversityTarget {
 
     @Id
@@ -11,23 +15,14 @@ public class DiversityTarget {
     private Long id;
 
     @Column(name = "target_year", nullable = false)
-    private int year;
+    private int year;  // renamed to avoid SQL reserved keyword
 
-    private double percentage;
+    @Column(nullable = false)
+    private float percentage;
 
-    private boolean active = true;
+    @Column(nullable = false)
+    private boolean active;
 
-    // getters & setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public int getYear() { return year; }
-    public void setYear(int year) { this.year = year; }
-
-    public double getPercentage() { return percentage; }
-    public void setPercentage(double percentage) { this.percentage = percentage; }
-
-    public boolean isActive() { return active; }
-    public void setActive(boolean active) { this.active = active; }
+    @Column(length = 255)
+    private String description;
 }
-    

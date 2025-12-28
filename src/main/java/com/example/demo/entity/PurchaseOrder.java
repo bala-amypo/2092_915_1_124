@@ -1,39 +1,30 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
+@Table(name = "purchase_order")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class PurchaseOrder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private double amount;
-    private boolean active = true;
-
     @ManyToOne
-    private Supplier supplier;
-
-    @ManyToOne
+    @JoinColumn(name = "spend_category_id")
     private SpendCategory spendCategory;
 
-    public PurchaseOrder() {}
+    @ManyToOne
+    @JoinColumn(name = "supplier_id")
+    private Supplier supplier;
 
-    @PrePersist
-    public void prePersist() {
-        this.active = true;
-    }
+    @Column(nullable = false)
+    private float amount;
 
-    public Long getId() { return id; }
-    public double getAmount() { return amount; }
-    public boolean isActive() { return active; }
-    public Supplier getSupplier() { return supplier; }
-    public SpendCategory getSpendCategory() { return spendCategory; }
-
-    public void setId(Long id) { this.id = id; }
-    public void setAmount(double amount) { this.amount = amount; }
-    public void setActive(boolean active) { this.active = active; }
-    public void setSupplier(Supplier supplier) { this.supplier = supplier; }
-    public void setSpendCategory(SpendCategory spendCategory) { this.spendCategory = spendCategory; }
+    @Column(nullable = false)
+    private boolean active;
 }
