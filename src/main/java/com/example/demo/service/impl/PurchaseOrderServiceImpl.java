@@ -3,21 +3,20 @@ package com.example.demo.service.impl;
 import com.example.demo.entity.PurchaseOrder;
 import com.example.demo.repository.PurchaseOrderRepository;
 import com.example.demo.service.PurchaseOrderService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     private final PurchaseOrderRepository repository;
 
-    public PurchaseOrderServiceImpl(PurchaseOrderRepository repository) {
-        this.repository = repository;
-    }
-
     @Override
     public PurchaseOrder create(PurchaseOrder order) {
+        order.setActive(true);
         return repository.save(order);
     }
 
@@ -27,7 +26,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     @Override
-    public List<PurchaseOrder> getBySpendCategoryId(Long spendCategoryId) {
-        return repository.findBySpendCategory_Id(spendCategoryId);
+    public List<PurchaseOrder> getActive() {
+        return repository.findByActiveTrue();
+    }
+
+    @Override
+    public PurchaseOrder deactivate(Long id) {
+        PurchaseOrder order = repository.findById(id).orElseThrow();
+        order.setActive(false);
+        return repository.save(order);
     }
 }

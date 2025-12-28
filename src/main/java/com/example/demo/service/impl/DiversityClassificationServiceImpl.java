@@ -3,21 +3,20 @@ package com.example.demo.service.impl;
 import com.example.demo.entity.DiversityClassification;
 import com.example.demo.repository.DiversityClassificationRepository;
 import com.example.demo.service.DiversityClassificationService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class DiversityClassificationServiceImpl implements DiversityClassificationService {
 
     private final DiversityClassificationRepository repository;
 
-    public DiversityClassificationServiceImpl(DiversityClassificationRepository repository) {
-        this.repository = repository;
-    }
-
     @Override
-    public DiversityClassification createClassification(DiversityClassification classification) {
+    public DiversityClassification create(DiversityClassification classification) {
+        classification.setActive(true);
         return repository.save(classification);
     }
 
@@ -27,7 +26,7 @@ public class DiversityClassificationServiceImpl implements DiversityClassificati
     }
 
     @Override
-    public List<DiversityClassification> getActiveClassifications() {
+    public List<DiversityClassification> getActive() {
         return repository.findByActiveTrue();
     }
 }

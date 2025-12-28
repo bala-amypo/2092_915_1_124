@@ -3,21 +3,20 @@ package com.example.demo.service.impl;
 import com.example.demo.entity.SpendCategory;
 import com.example.demo.repository.SpendCategoryRepository;
 import com.example.demo.service.SpendCategoryService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class SpendCategoryServiceImpl implements SpendCategoryService {
 
     private final SpendCategoryRepository repository;
 
-    public SpendCategoryServiceImpl(SpendCategoryRepository repository) {
-        this.repository = repository;
-    }
-
     @Override
     public SpendCategory create(SpendCategory category) {
+        category.setActive(true);
         return repository.save(category);
     }
 
@@ -27,7 +26,14 @@ public class SpendCategoryServiceImpl implements SpendCategoryService {
     }
 
     @Override
-    public List<SpendCategory> getAllActive() {
+    public List<SpendCategory> getActive() {
         return repository.findByActiveTrue();
+    }
+
+    @Override
+    public SpendCategory deactivate(Long id) {
+        SpendCategory category = repository.findById(id).orElseThrow();
+        category.setActive(false);
+        return repository.save(category);
     }
 }

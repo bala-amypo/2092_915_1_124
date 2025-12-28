@@ -3,21 +3,20 @@ package com.example.demo.service.impl;
 import com.example.demo.entity.DiversityTarget;
 import com.example.demo.repository.DiversityTargetRepository;
 import com.example.demo.service.DiversityTargetService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class DiversityTargetServiceImpl implements DiversityTargetService {
 
     private final DiversityTargetRepository repository;
 
-    public DiversityTargetServiceImpl(DiversityTargetRepository repository) {
-        this.repository = repository;
-    }
-
     @Override
     public DiversityTarget create(DiversityTarget target) {
+        target.setActive(true);
         return repository.save(target);
     }
 
@@ -27,17 +26,14 @@ public class DiversityTargetServiceImpl implements DiversityTargetService {
     }
 
     @Override
-    public List<DiversityTarget> getByTargetYear(int year) {
+    public List<DiversityTarget> getByYear(int year) {
         return repository.findByTargetYear(year);
     }
 
     @Override
-    public DiversityTarget update(Long id, DiversityTarget targetDetails) {
-        DiversityTarget target = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("DiversityTarget not found"));
-        target.setTargetYear(targetDetails.getTargetYear());
-        target.setTargetValue(targetDetails.getTargetValue());
-        target.setDescription(targetDetails.getDescription());
+    public DiversityTarget deactivate(Long id) {
+        DiversityTarget target = repository.findById(id).orElseThrow();
+        target.setActive(false);
         return repository.save(target);
     }
 }
