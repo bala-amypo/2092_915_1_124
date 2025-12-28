@@ -1,45 +1,23 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.math.BigDecimal;
-import java.time.LocalDate;
+import lombok.Data;
 
+@Data
 @Entity
 public class PurchaseOrder {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String poNumber;
-    private BigDecimal amount;
-    private LocalDate dateIssued;
-    private String notes;
+    private String orderNumber;
 
     @ManyToOne
-    private Supplier supplier;
+    @JoinColumn(name = "spend_category_id") // FK column
+    private SpendCategory spendCategory;
 
-    @ManyToOne
-    private SpendCategory category;
+    private Double amount;
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public String getPoNumber() { return poNumber; }
-    public void setPoNumber(String poNumber) { this.poNumber = poNumber; }
-
-    public BigDecimal getAmount() { return amount; }
-    public void setAmount(BigDecimal amount) { this.amount = amount; }
-
-    public LocalDate getDateIssued() { return dateIssued; }
-    public void setDateIssued(LocalDate dateIssued) { this.dateIssued = dateIssued; }
-
-    public Supplier getSupplier() { return supplier; }
-    public void setSupplier(Supplier supplier) { this.supplier = supplier; }
-
-    public SpendCategory getCategory() { return category; }
-    public void setCategory(SpendCategory category) { this.category = category; }
-
-    public String getNotes() { return notes; }
-    public void setNotes(String notes) { this.notes = notes; }
+    private boolean active = true;
 }

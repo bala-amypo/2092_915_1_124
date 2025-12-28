@@ -4,35 +4,36 @@ import com.example.demo.entity.PurchaseOrder;
 import com.example.demo.repository.PurchaseOrderRepository;
 import com.example.demo.service.PurchaseOrderService;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
 public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
-    private final PurchaseOrderRepository poRepo;
+    private final PurchaseOrderRepository repository;
 
-    public PurchaseOrderServiceImpl(PurchaseOrderRepository poRepo) {
-        this.poRepo = poRepo;
+    public PurchaseOrderServiceImpl(PurchaseOrderRepository repository) {
+        this.repository = repository;
     }
 
     @Override
-    public PurchaseOrder save(PurchaseOrder order) {
-        return poRepo.save(order);
+    public PurchaseOrder create(PurchaseOrder order) {
+        return repository.save(order);
     }
 
     @Override
-    public List<PurchaseOrder> findAll() {
-        return poRepo.findAll();
+    public List<PurchaseOrder> getAll() {
+        return repository.findAll();
     }
 
     @Override
-    public List<PurchaseOrder> findBySupplierId(Long supplierId) {
-        return poRepo.findBySupplier_Id(supplierId);
+    public List<PurchaseOrder> getBySpendCategoryId(Long id) {
+        return repository.findBySpendCategory_Id(id);
     }
 
     @Override
-    public List<PurchaseOrder> findBySpendCategoryId(Long categoryId) {
-        return poRepo.findBySpendCategory_Id(categoryId);
+    public PurchaseOrder deactivate(Long id) {
+        PurchaseOrder order = repository.findById(id).orElseThrow(() -> new RuntimeException("Order not found"));
+        order.setActive(false);
+        return repository.save(order);
     }
 }

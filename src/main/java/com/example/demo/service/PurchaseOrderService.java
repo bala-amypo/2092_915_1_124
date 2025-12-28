@@ -1,16 +1,15 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.PurchaseOrder;
-
 import java.util.List;
 
 public interface PurchaseOrderService {
 
-    PurchaseOrder save(PurchaseOrder order);
+    PurchaseOrder create(PurchaseOrder order);
 
-    List<PurchaseOrder> findAll();
+    List<PurchaseOrder> getAll();
 
-    List<PurchaseOrder> findBySupplierId(Long supplierId);
+    List<PurchaseOrder> getBySpendCategoryId(Long id);
 
-    List<PurchaseOrder> findBySpendCategoryId(Long categoryId);
+    PurchaseOrder deactivate(Long id);
 }
