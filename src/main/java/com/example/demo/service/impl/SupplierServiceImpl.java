@@ -4,6 +4,7 @@ import com.example.demo.entity.Supplier;
 import com.example.demo.repository.SupplierRepository;
 import com.example.demo.service.SupplierService;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -17,13 +18,7 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public Supplier create(Supplier supplier) {
-        supplier.setActive(true);
         return repository.save(supplier);
-    }
-
-    @Override
-    public List<Supplier> getActive() {
-        return repository.findByActiveTrue();
     }
 
     @Override
@@ -32,9 +27,9 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public Supplier deactivate(Long id) {
-        Supplier supplier = repository.findById(id).orElseThrow();
-        supplier.setActive(false);
+    public Supplier setActive(Long id, boolean active) {
+        Supplier supplier = repository.findById(id).orElseThrow(() -> new RuntimeException("Supplier not found"));
+        supplier.setActive(active);
         return repository.save(supplier);
     }
 }

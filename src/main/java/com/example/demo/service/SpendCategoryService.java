@@ -5,7 +5,6 @@ import java.util.List;
 
 public interface SpendCategoryService {
     SpendCategory create(SpendCategory category);
-    List<SpendCategory> getActive();
     List<SpendCategory> getAll();
-    SpendCategory deactivate(Long id);
+    List<SpendCategory> getAllActive();
 }

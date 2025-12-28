@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface DiversityTargetService {
     DiversityTarget create(DiversityTarget target);
-    List<DiversityTarget> getByYear(int year);
     List<DiversityTarget> getAll();
-    DiversityTarget deactivate(Long id);
+    List<DiversityTarget> getByTargetYear(int year);
+    DiversityTarget update(Long id, DiversityTarget target);
 }

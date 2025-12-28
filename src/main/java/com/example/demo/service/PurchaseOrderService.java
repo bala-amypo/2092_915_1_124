@@ -4,12 +4,7 @@ import com.example.demo.entity.PurchaseOrder;
 import java.util.List;
 
 public interface PurchaseOrderService {
-
     PurchaseOrder create(PurchaseOrder order);
-
     List<PurchaseOrder> getAll();
-
-    List<PurchaseOrder> getBySpendCategoryId(Long id);
-
-    PurchaseOrder deactivate(Long id);
+    List<PurchaseOrder> getBySpendCategoryId(Long spendCategoryId);
 }

@@ -4,6 +4,7 @@ import com.example.demo.entity.PurchaseOrder;
 import com.example.demo.repository.PurchaseOrderRepository;
 import com.example.demo.service.PurchaseOrderService;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -26,14 +27,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     @Override
-    public List<PurchaseOrder> getBySpendCategoryId(Long id) {
-        return repository.findBySpendCategory_Id(id);
-    }
-
-    @Override
-    public PurchaseOrder deactivate(Long id) {
-        PurchaseOrder order = repository.findById(id).orElseThrow(() -> new RuntimeException("Order not found"));
-        order.setActive(false);
-        return repository.save(order);
+    public List<PurchaseOrder> getBySpendCategoryId(Long spendCategoryId) {
+        return repository.findBySpendCategory_Id(spendCategoryId);
     }
 }

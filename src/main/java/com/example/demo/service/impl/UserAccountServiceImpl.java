@@ -4,6 +4,7 @@ import com.example.demo.entity.UserAccount;
 import com.example.demo.repository.UserAccountRepository;
 import com.example.demo.service.UserAccountService;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -16,13 +17,9 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
-    public UserAccount create(UserAccount user) {
-        return repository.save(user);
-    }
-
-    @Override
     public UserAccount login(String email, String password) {
-        return repository.findByEmailAndPassword(email, password);
+        return repository.findByEmailAndPassword(email, password)
+                .orElseThrow(() -> new RuntimeException("Invalid email or password"));
     }
 
     @Override
