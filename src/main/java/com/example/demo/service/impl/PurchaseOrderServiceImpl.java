@@ -3,9 +3,8 @@ package com.example.demo.service.impl;
 import com.example.demo.entity.PurchaseOrder;
 import com.example.demo.repository.PurchaseOrderRepository;
 import com.example.demo.service.PurchaseOrderService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 @Service

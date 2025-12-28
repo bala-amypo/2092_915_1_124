@@ -4,7 +4,7 @@ import com.example.demo.entity.UserAccount;
 import java.util.List;
 
 public interface UserAccountService {
-    UserAccount create(UserAccount userAccount);
+    UserAccount create(UserAccount user);
     List<UserAccount> getAll();
     List<UserAccount> getActive();
     UserAccount deactivate(Long id);

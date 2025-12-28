@@ -3,9 +3,8 @@ package com.example.demo.service.impl;
 import com.example.demo.entity.SpendCategory;
 import com.example.demo.repository.SpendCategoryRepository;
 import com.example.demo.service.SpendCategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 @Service
