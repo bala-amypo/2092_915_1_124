@@ -12,7 +12,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     private final PurchaseOrderRepository repository;
 
-    // THIS CONSTRUCTOR IS REQUIRED BY TESTS
+    // Constructor expected by tests
     public PurchaseOrderServiceImpl(PurchaseOrderRepository repository) {
         this.repository = repository;
     }
@@ -28,7 +28,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     @Override
-    public PurchaseOrder save(PurchaseOrder purchaseOrder) {
+    public PurchaseOrder create(PurchaseOrder purchaseOrder) {
         return repository.save(purchaseOrder);
     }
 
