@@ -3,6 +3,7 @@ package com.example.demo.entity;
 import java.time.LocalDateTime;
 
 public class UserAccount {
+
     private Long id;
     private String fullName;
     private String email;
@@ -37,4 +38,9 @@ public class UserAccount {
     public void setRole(String role) { this.role = role; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
+
+    // <-- Add this method
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+    }
 }
