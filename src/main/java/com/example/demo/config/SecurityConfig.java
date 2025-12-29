@@ -12,24 +12,30 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
+            // Disable CSRF for Swagger and REST APIs
             .csrf(csrf -> csrf.disable())
+
+            // Disable CORS restrictions
+            .cors(cors -> cors.disable())
+
+            // Allow all requests including Swagger and H2
             .authorizeHttpRequests(auth -> auth
-                // ✅ ALLOW SWAGGER
                 .requestMatchers(
                     "/swagger-ui.html",
                     "/swagger-ui/**",
                     "/v3/api-docs/**",
-                    "/h2-console/**"
+                    "/h2-console/**",
+                    "/**"
                 ).permitAll()
-
-                // ✅ ALLOW ALL API ENDPOINTS (for now)
                 .anyRequest().permitAll()
             )
-            // ✅ REQUIRED for H2 console
+
+            // Required for H2 console
             .headers(headers -> headers.frameOptions(frame -> frame.disable()))
-            // ❌ REMOVE login page completely
-            .httpBasic(basic -> basic.disable())
-            .formLogin(form -> form.disable());
+
+            // Disable all authentication mechanisms
+            .httpBasic(httpBasic -> httpBasic.disable())
+            .formLogin(formLogin -> formLogin.disable());
 
         return http.build();
     }
