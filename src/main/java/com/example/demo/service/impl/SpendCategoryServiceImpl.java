@@ -22,6 +22,13 @@ public class SpendCategoryServiceImpl implements SpendCategoryService {
         return repository.save(category);
     }
 
+    // REQUIRED BY TEST
+    @Override
+    public List<SpendCategory> getAllCategories() {
+        return repository.findAll();
+    }
+
+    // REQUIRED BY CONTROLLER
     @Override
     public List<SpendCategory> getActiveCategories() {
         return repository.findByActiveTrue();
