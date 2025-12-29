@@ -1,20 +1,18 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
-
-@Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Table(name = "diversity_classification")
 public class DiversityClassification {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String code;
+    private Boolean active;
 
-    private boolean active = true;
+    public void preSave() {
+        if (active == null) active = true;
+    }
 
-    private String name;
+    public void setCode(String code) {
+        this.code = code.toUpperCase();
+    }
+
+    // getters & setters
 }
