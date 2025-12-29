@@ -4,13 +4,13 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class PurchaseOrder {
-
     private Long id;
     private Supplier supplier;
     private SpendCategory category;
-    private String poNumber;
-    private LocalDate dateIssued;
     private BigDecimal amount;
+    private LocalDate dateIssued;
+    private String poNumber;
+    private String notes;
 
     public PurchaseOrder() {}
 
@@ -23,12 +23,15 @@ public class PurchaseOrder {
     public SpendCategory getCategory() { return category; }
     public void setCategory(SpendCategory category) { this.category = category; }
 
-    public String getPoNumber() { return poNumber; }
-    public void setPoNumber(String poNumber) { this.poNumber = poNumber; }
+    public BigDecimal getAmount() { return amount; }
+    public void setAmount(BigDecimal amount) { this.amount = amount; }
 
     public LocalDate getDateIssued() { return dateIssued; }
     public void setDateIssued(LocalDate dateIssued) { this.dateIssued = dateIssued; }
 
-    public BigDecimal getAmount() { return amount; }
-    public void setAmount(BigDecimal amount) { this.amount = amount; }
+    public String getPoNumber() { return poNumber; }
+    public void setPoNumber(String poNumber) { this.poNumber = poNumber; }
+
+    public String getNotes() { return notes; }
+    public void setNotes(String notes) { this.notes = notes; }
 }
