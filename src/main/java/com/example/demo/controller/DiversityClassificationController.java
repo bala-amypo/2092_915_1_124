@@ -2,9 +2,13 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.DiversityClassification;
 import com.example.demo.service.DiversityClassificationService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RestController
+@RequestMapping("/api/classifications")
 public class DiversityClassificationController {
 
     private final DiversityClassificationService service;
@@ -13,16 +17,14 @@ public class DiversityClassificationController {
         this.service = service;
     }
 
-    public DiversityClassification createClassification(
-            DiversityClassification classification) {
-        return service.createClassification(classification);
+    @PostMapping
+    public ResponseEntity<DiversityClassification> create(
+            @RequestBody DiversityClassification classification) {
+        return ResponseEntity.ok(service.createClassification(classification));
     }
 
-    public List<DiversityClassification> getAllClassifications() {
-        return service.getAllClassifications();
-    }
-
-    public void deactivateClassification(Long id) {
-        service.deactivateClassification(id);
+    @GetMapping("/active")
+    public ResponseEntity<List<DiversityClassification>> getActive() {
+        return ResponseEntity.ok(service.getActiveClassifications());
     }
 }

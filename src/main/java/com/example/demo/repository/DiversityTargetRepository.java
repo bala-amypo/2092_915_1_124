@@ -1,16 +1,12 @@
 package com.example.demo.repository;
 
 import com.example.demo.entity.DiversityTarget;
+import org.springframework.data.jpa.repository.JpaRepository;
+
 import java.util.List;
-import java.util.Optional;
 
-public interface DiversityTargetRepository {
+public interface DiversityTargetRepository
+        extends JpaRepository<DiversityTarget, Long> {
 
-    DiversityTarget save(DiversityTarget target);
-
-    Optional<DiversityTarget> findById(Long id);
-
-    List<DiversityTarget> findAll();
-
-    List<DiversityTarget> findByTargetYear(Integer year);
+    List<DiversityTarget> findByTargetYear(Integer targetYear);
 }

@@ -1,28 +1,32 @@
 package com.example.demo.entity;
 
+import jakarta.persistence.*;
+
+@Entity
 public class DiversityClassification {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private String code; // Added for test usage
-    private boolean active = true;
 
-    public DiversityClassification() {}
+    private String code;
+    private Boolean active;
+
+    @PrePersist
+    public void preSave() {
+        this.active = true;
+    }
+
+    /* Getters and Setters */
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-
     public String getCode() { return code; }
-    public void setCode(String code) { this.code = code; }
-
-    public boolean getActive() { return active; }
-    public void setActive(boolean active) { this.active = active; }
-
-    // Added for test usage
-    public void preSave() {
-        // Optional: implement pre-save logic if needed
+    public void setCode(String code) {
+        this.code = code != null ? code.toUpperCase() : null;
     }
+
+    public Boolean getActive() { return active; }
+    public void setActive(Boolean active) { this.active = active; }
 }

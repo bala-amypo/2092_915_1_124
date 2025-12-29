@@ -2,9 +2,13 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.PurchaseOrder;
 import com.example.demo.service.PurchaseOrderService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RestController
+@RequestMapping("/api/purchase-orders")
 public class PurchaseOrderController {
 
     private final PurchaseOrderService service;
@@ -13,11 +17,14 @@ public class PurchaseOrderController {
         this.service = service;
     }
 
-    public PurchaseOrder createPurchaseOrder(PurchaseOrder order) {
-        return service.createPurchaseOrder(order);
+    @PostMapping
+    public ResponseEntity<PurchaseOrder> create(@RequestBody PurchaseOrder po) {
+        return ResponseEntity.ok(service.createPurchaseOrder(po));
     }
 
-    public List<PurchaseOrder> getOrdersBySupplier(Long supplierId) {
-        return service.getPurchaseOrdersBySupplier(supplierId);
+    @GetMapping("/supplier/{supplierId}")
+    public ResponseEntity<List<PurchaseOrder>> getBySupplier(
+            @PathVariable Long supplierId) {
+        return ResponseEntity.ok(service.getPurchaseOrdersBySupplier(supplierId));
     }
 }

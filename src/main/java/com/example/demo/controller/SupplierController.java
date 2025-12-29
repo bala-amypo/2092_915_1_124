@@ -2,9 +2,13 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Supplier;
 import com.example.demo.service.SupplierService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RestController
+@RequestMapping("/api/suppliers")
 public class SupplierController {
 
     private final SupplierService supplierService;
@@ -13,19 +17,24 @@ public class SupplierController {
         this.supplierService = supplierService;
     }
 
-    public Supplier createSupplier(Supplier supplier) {
-        return supplierService.createSupplier(supplier);
+    @PostMapping
+    public ResponseEntity<Supplier> createSupplier(@RequestBody Supplier supplier) {
+        return ResponseEntity.ok(supplierService.createSupplier(supplier));
     }
 
-    public Supplier getSupplierById(Long id) {
-        return supplierService.getSupplierById(id);
+    @GetMapping("/{id}")
+    public ResponseEntity<Supplier> getSupplier(@PathVariable Long id) {
+        return ResponseEntity.ok(supplierService.getSupplierById(id));
     }
 
-    public List<Supplier> getAllSuppliers() {
-        return supplierService.getAllSuppliers();
+    @GetMapping
+    public ResponseEntity<List<Supplier>> getAllSuppliers() {
+        return ResponseEntity.ok(supplierService.getAllSuppliers());
     }
 
-    public void deactivateSupplier(Long id) {
+    @PutMapping("/{id}/deactivate")
+    public ResponseEntity<Void> deactivateSupplier(@PathVariable Long id) {
         supplierService.deactivateSupplier(id);
+        return ResponseEntity.ok().build();
     }
 }

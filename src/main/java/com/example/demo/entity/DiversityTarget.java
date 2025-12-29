@@ -1,32 +1,48 @@
 package com.example.demo.entity;
 
-import java.time.LocalDateTime;
+import jakarta.persistence.*;
 
+@Entity
 public class DiversityTarget {
-    private Long id;
-    private Integer targetYear;
-    private boolean active = true;
-    private Double targetPercentage;
-    private DiversityClassification classification;
-    private LocalDateTime createdAt;
 
-    public DiversityTarget() {}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private Integer targetYear;
+    private Double targetPercentage;
+    private Boolean active;
+
+    @ManyToOne
+    private DiversityClassification classification;
+
+    @PrePersist
+    public void preSave() {
+        this.active = true;
+    }
+
+    /* Getters and Setters */
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
     public Integer getTargetYear() { return targetYear; }
-    public void setTargetYear(Integer targetYear) { this.targetYear = targetYear; }
-
-    public boolean getActive() { return active; }
-    public void setActive(boolean active) { this.active = active; }
+    public void setTargetYear(Integer targetYear) {
+        this.targetYear = targetYear;
+    }
 
     public Double getTargetPercentage() { return targetPercentage; }
-    public void setTargetPercentage(Double targetPercentage) { this.targetPercentage = targetPercentage; }
+    public void setTargetPercentage(Double targetPercentage) {
+        this.targetPercentage = targetPercentage;
+    }
 
-    public DiversityClassification getClassification() { return classification; }
-    public void setClassification(DiversityClassification classification) { this.classification = classification; }
+    public Boolean getActive() { return active; }
+    public void setActive(Boolean active) { this.active = active; }
 
-    public void preSave() { this.createdAt = LocalDateTime.now(); }
-    public LocalDateTime getCreatedAt() { return createdAt; }
+    public DiversityClassification getClassification() {
+        return classification;
+    }
+    public void setClassification(DiversityClassification classification) {
+        this.classification = classification;
+    }
 }

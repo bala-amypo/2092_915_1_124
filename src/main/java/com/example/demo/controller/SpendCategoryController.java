@@ -2,9 +2,13 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.SpendCategory;
 import com.example.demo.service.SpendCategoryService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RestController
+@RequestMapping("/api/categories")
 public class SpendCategoryController {
 
     private final SpendCategoryService service;
@@ -13,15 +17,13 @@ public class SpendCategoryController {
         this.service = service;
     }
 
-    public SpendCategory createCategory(SpendCategory category) {
-        return service.createCategory(category);
+    @PostMapping
+    public ResponseEntity<SpendCategory> create(@RequestBody SpendCategory category) {
+        return ResponseEntity.ok(service.createCategory(category));
     }
 
-    public List<SpendCategory> getAllCategories() {
-        return service.getAllCategories();
-    }
-
-    public void deactivateCategory(Long id) {
-        service.deactivateCategory(id);
+    @GetMapping("/active")
+    public ResponseEntity<List<SpendCategory>> getActive() {
+        return ResponseEntity.ok(service.getActiveCategories());
     }
 }

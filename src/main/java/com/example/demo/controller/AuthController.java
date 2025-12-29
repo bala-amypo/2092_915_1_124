@@ -7,12 +7,14 @@ import com.example.demo.entity.UserAccount;
 import com.example.demo.exception.UnauthorizedException;
 import com.example.demo.security.JwtUtil;
 import com.example.demo.service.UserAccountService;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.web.bind.annotation.*;
 
+@RestController
+@RequestMapping("/auth")
 public class AuthController {
 
     private final UserAccountService userAccountService;
@@ -27,46 +29,39 @@ public class AuthController {
         this.jwtUtil = jwtUtil;
     }
 
-    public ResponseEntity<JwtResponse> register(RegisterRequest request) {
+    @PostMapping("/register")
+    public ResponseEntity<JwtResponse> register(@RequestBody RegisterRequest req) {
 
         UserAccount user = new UserAccount();
-        user.setFullName(request.getFullName());
-        user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
-        user.setRole(request.getRole());
+        user.setFullName(req.getFullName());
+        user.setEmail(req.getEmail());
+        user.setPassword(req.getPassword());
+        user.setRole(req.getRole());
 
         UserAccount saved = userAccountService.register(user);
-
         String token = jwtUtil.generateToken(
-                saved.getId(),
-                saved.getEmail(),
-                saved.getRole()
-        );
+                saved.getId(), saved.getEmail(), saved.getRole());
 
         return ResponseEntity.ok(new JwtResponse(token));
     }
 
-    public ResponseEntity<JwtResponse> login(LoginRequest request) {
+    @PostMapping("/login")
+    public ResponseEntity<JwtResponse> login(@RequestBody LoginRequest req) {
 
         try {
             authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            request.getEmail(),
-                            request.getPassword()
-                    )
+                new UsernamePasswordAuthenticationToken(
+                        req.getEmail(), req.getPassword())
             );
         } catch (BadCredentialsException ex) {
             throw new UnauthorizedException("Invalid credentials");
         }
 
         UserAccount user =
-                userAccountService.findByEmailOrThrow(request.getEmail());
+                userAccountService.findByEmailOrThrow(req.getEmail());
 
         String token = jwtUtil.generateToken(
-                user.getId(),
-                user.getEmail(),
-                user.getRole()
-        );
+                user.getId(), user.getEmail(), user.getRole());
 
         return ResponseEntity.ok(new JwtResponse(token));
     }

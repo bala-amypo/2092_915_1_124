@@ -4,9 +4,11 @@ import com.example.demo.entity.Supplier;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.SupplierRepository;
 import com.example.demo.service.SupplierService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class SupplierServiceImpl implements SupplierService {
 
     private final SupplierRepository repository;
@@ -23,7 +25,8 @@ public class SupplierServiceImpl implements SupplierService {
     @Override
     public Supplier getSupplierById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Supplier not found"));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Supplier not found"));
     }
 
     @Override

@@ -1,26 +1,39 @@
 package com.example.demo.entity;
 
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+@Entity
 public class UserAccount {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String fullName;
     private String email;
     private String password;
     private String role;
     private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 
     public UserAccount() {}
 
-    public UserAccount(Long id, String fullName, String email, String password, String role) {
+    public UserAccount(Long id, String fullName, String email,
+                       String password, String role) {
         this.id = id;
         this.fullName = fullName;
         this.email = email;
         this.password = password;
         this.role = role;
     }
+
+    @PrePersist
+    public void prePersist() {
+        this.role = (this.role == null) ? "USER" : this.role;
+        this.createdAt = LocalDateTime.now();
+    }
+
+    /* Getters and Setters */
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -32,17 +45,12 @@ public class UserAccount {
     public void setEmail(String email) { this.email = email; }
 
     public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public String getRole() { return role; }
     public void setRole(String role) { this.role = role; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
-
-    public void prePersist() {
-        if (this.createdAt == null) this.createdAt = LocalDateTime.now();
-        if (this.role == null) this.role = "USER";
-    }
 }
