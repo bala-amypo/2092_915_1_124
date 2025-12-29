@@ -9,8 +9,9 @@ import java.io.PrintWriter;
 
 public class SimpleStatusServlet extends HttpServlet {
 
+    // MUST be public because tests call it directly
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+    public void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
 
         resp.setContentType("text/plain");
