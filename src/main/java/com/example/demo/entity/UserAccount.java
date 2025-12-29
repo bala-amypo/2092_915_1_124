@@ -14,6 +14,14 @@ public class UserAccount {
 
     public UserAccount() {}
 
+    public UserAccount(Long id, String fullName, String email, String password, String role) {
+        this.id = id;
+        this.fullName = fullName;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -33,13 +41,8 @@ public class UserAccount {
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 
-    // Called before saving to database to set defaults
     public void prePersist() {
-        if (this.createdAt == null) {
-            this.createdAt = LocalDateTime.now();
-        }
-        if (this.role == null) {
-            this.role = "USER"; // default role
-        }
+        if (this.createdAt == null) this.createdAt = LocalDateTime.now();
+        if (this.role == null) this.role = "USER";
     }
 }
