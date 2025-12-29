@@ -1,39 +1,73 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.JwtResponse;
+import com.example.demo.dto.LoginRequest;
+import com.example.demo.dto.RegisterRequest;
 import com.example.demo.entity.UserAccount;
+import com.example.demo.exception.UnauthorizedException;
+import com.example.demo.security.JwtUtil;
 import com.example.demo.service.UserAccountService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
-@RestController
-@RequestMapping("/auth")
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+
 public class AuthController {
 
-    private final UserAccountService service;
+    private final UserAccountService userAccountService;
+    private final AuthenticationManager authenticationManager;
+    private final JwtUtil jwtUtil;
 
-    @Autowired
-    public AuthController(UserAccountService service) {
-        this.service = service;
+    public AuthController(UserAccountService userAccountService,
+                          AuthenticationManager authenticationManager,
+                          JwtUtil jwtUtil) {
+        this.userAccountService = userAccountService;
+        this.authenticationManager = authenticationManager;
+        this.jwtUtil = jwtUtil;
     }
 
-    @PostMapping("/create")
-    public UserAccount create(@RequestBody UserAccount user) {
-        return service.create(user);
+    public ResponseEntity<JwtResponse> register(RegisterRequest request) {
+
+        UserAccount user = new UserAccount();
+        user.setFullName(request.getFullName());
+        user.setEmail(request.getEmail());
+        user.setPassword(request.getPassword());
+        user.setRole(request.getRole());
+
+        UserAccount saved = userAccountService.register(user);
+
+        String token = jwtUtil.generateToken(
+                saved.getId(),
+                saved.getEmail(),
+                saved.getRole()
+        );
+
+        return ResponseEntity.ok(new JwtResponse(token));
     }
 
-    @GetMapping("/all")
-    public List<UserAccount> getAll() {
-        return service.getAll();
-    }
+    public ResponseEntity<JwtResponse> login(LoginRequest request) {
 
-    @GetMapping("/active")
-    public List<UserAccount> getActive() {
-        return service.getActive();
-    }
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getEmail(),
+                            request.getPassword()
+                    )
+            );
+        } catch (BadCredentialsException ex) {
+            throw new UnauthorizedException("Invalid credentials");
+        }
 
-    @PutMapping("/deactivate/{id}")
-    public UserAccount deactivate(@PathVariable Long id) {
-        return service.deactivate(id);
+        UserAccount user =
+                userAccountService.findByEmailOrThrow(request.getEmail());
+
+        String token = jwtUtil.generateToken(
+                user.getId(),
+                user.getEmail(),
+                user.getRole()
+        );
+
+        return ResponseEntity.ok(new JwtResponse(token));
     }
 }
