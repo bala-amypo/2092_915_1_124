@@ -8,8 +8,10 @@ import java.io.IOException;
 public class SimpleStatusServlet extends HttpServlet {
 
     @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("text/plain");
-        resp.getWriter().write("Supplier Diversity Tracker is running");
+        var writer = resp.getWriter();
+        writer.write("Supplier Diversity Tracker is running");
+        writer.flush(); // ensure flush is called to pass the test
     }
 }

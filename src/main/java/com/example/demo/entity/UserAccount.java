@@ -10,17 +10,9 @@ public class UserAccount {
     private String password;
     private String role;
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     public UserAccount() {}
-
-    public UserAccount(Long id, String fullName, String email, String password, String role) {
-        this.id = id;
-        this.fullName = fullName;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-        this.createdAt = LocalDateTime.now();
-    }
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -38,9 +30,16 @@ public class UserAccount {
     public void setRole(String role) { this.role = role; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 
-    // <-- Add this method
+    // Called before saving to database to set defaults
     public void prePersist() {
-        this.createdAt = LocalDateTime.now();
+        if (this.createdAt == null) {
+            this.createdAt = LocalDateTime.now();
+        }
+        if (this.role == null) {
+            this.role = "USER"; // default role
+        }
     }
 }
