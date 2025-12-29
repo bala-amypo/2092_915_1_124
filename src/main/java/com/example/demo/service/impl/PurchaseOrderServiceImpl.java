@@ -3,8 +3,8 @@ package com.example.demo.service.impl;
 import com.example.demo.entity.PurchaseOrder;
 import com.example.demo.repository.PurchaseOrderRepository;
 import com.example.demo.service.PurchaseOrderService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -12,14 +12,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     private final PurchaseOrderRepository repository;
 
-    @Autowired
+    // THIS CONSTRUCTOR IS REQUIRED BY TESTS
     public PurchaseOrderServiceImpl(PurchaseOrderRepository repository) {
         this.repository = repository;
-    }
-
-    @Override
-    public PurchaseOrder create(PurchaseOrder order) {
-        return repository.save(order);
     }
 
     @Override
@@ -33,9 +28,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     @Override
+    public PurchaseOrder save(PurchaseOrder purchaseOrder) {
+        return repository.save(purchaseOrder);
+    }
+
+    @Override
     public PurchaseOrder deactivate(Long id) {
-        PurchaseOrder order = repository.findById(id).orElseThrow(() -> new RuntimeException("Order not found"));
-        order.setActive(false);
-        return repository.save(order);
+        PurchaseOrder po = repository.findById(id).orElseThrow();
+        po.setActive(false);
+        return repository.save(po);
     }
 }
