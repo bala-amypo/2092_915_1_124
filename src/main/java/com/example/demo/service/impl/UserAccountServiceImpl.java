@@ -1,41 +1,37 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.UserAccount;
+import com.example.demo.exception.BadRequestException;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.UserAccountRepository;
 import com.example.demo.service.UserAccountService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import java.util.List;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-@Service
 public class UserAccountServiceImpl implements UserAccountService {
 
     private final UserAccountRepository repository;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    public UserAccountServiceImpl(UserAccountRepository repository) {
+    public UserAccountServiceImpl(
+            UserAccountRepository repository,
+            PasswordEncoder passwordEncoder
+    ) {
         this.repository = repository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
-    public UserAccount create(UserAccount user) {
+    public UserAccount register(UserAccount user) {
+        if (repository.existsByEmail(user.getEmail())) {
+            throw new BadRequestException("Email already exists");
+        }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return repository.save(user);
     }
 
     @Override
-    public List<UserAccount> getAll() {
-        return repository.findAll();
-    }
-
-    @Override
-    public List<UserAccount> getActive() {
-        return repository.findByActiveTrue();
-    }
-
-    @Override
-    public UserAccount deactivate(Long id) {
-        UserAccount user = repository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
-        user.setActive(false);
-        return repository.save(user);
+    public UserAccount findByEmailOrThrow(String email) {
+        return repository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 }
