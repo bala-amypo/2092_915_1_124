@@ -13,14 +13,6 @@ public class UserAccount {
 
     public UserAccount() {}
 
-    public UserAccount(Long id, String fullName, String email, String password, String role) {
-        this.id = id;
-        this.fullName = fullName;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-    }
-
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -37,6 +29,5 @@ public class UserAccount {
     public void setRole(String role) { this.role = role; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
-
     public void prePersist() { this.createdAt = LocalDateTime.now(); }
 }
