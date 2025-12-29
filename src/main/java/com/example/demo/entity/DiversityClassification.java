@@ -3,16 +3,32 @@ package com.example.demo.entity;
 public class DiversityClassification {
 
     private Long id;
-    private String code;
-    private Boolean active;
+    private String name;
+    private boolean active = true;
 
-    public void preSave() {
-        if (active == null) active = true;
+    public DiversityClassification() {}
+
+    public Long getId() {
+        return id;
     }
 
-    public void setCode(String code) {
-        this.code = code.toUpperCase();
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    // getters & setters
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }

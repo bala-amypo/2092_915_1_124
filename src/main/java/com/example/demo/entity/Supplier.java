@@ -1,28 +1,34 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.*;
-import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
-
 public class Supplier {
 
     private Long id;
     private String name;
-    private String email;
-    private Boolean isActive;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    private Set<DiversityClassification> diversityClassifications = new HashSet<>();
+    private boolean isActive = true;
 
-    public void prePersist() {
-        if (isActive == null) isActive = true;
-        createdAt = LocalDateTime.now();
+    public Supplier() {}
+
+    public Long getId() {
+        return id;
     }
 
-    // getters & setters
-    // IMPORTANT: return actual set
-    public Set<DiversityClassification> getDiversityClassifications() {
-        return diversityClassifications;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(boolean active) {
+        isActive = active;
     }
 }

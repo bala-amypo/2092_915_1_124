@@ -4,11 +4,31 @@ public class SpendCategory {
 
     private Long id;
     private String name;
-    private Boolean active;
+    private boolean active = true;
 
-    public void preSave() {
-        if (active == null) active = true;
+    public SpendCategory() {}
+
+    public Long getId() {
+        return id;
     }
 
-    // getters & setters
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean getActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }
